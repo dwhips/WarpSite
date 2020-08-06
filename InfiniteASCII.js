@@ -1,19 +1,24 @@
-var ladderDiv = document.createElement('pre');
-ladderDiv.innerHTML = "";
-for(var i = 0; i < 100; ++ i)
+function ExtendLadder(n)
 {
-    // need it to append but get scroll working first
-   ladderDiv.innerHTML += "        ||======||\n";
-   ladderDiv.innerHTML += "        ||      ||\n";
-   ladderDiv.innerHTML += "        ||      ||\n";
+    for(var i = 0; i < n; ++i)
+    {
+        document.getElementById('monkey').innerHTML += "        ||======||\n";
+        document.getElementById('monkey').innerHTML += "        ||      ||\n";
+        document.getElementById('monkey').innerHTML += "        ||      ||\n";
+    }
+}
+
+// for when i want to add more visual spice to the page
+function AddStar()
+{
+    // * . +
 }
 
 window.onscroll = function(ev) {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-        var d1 = document.getElementById('monkey');
-        d1.insertAdjacentElement('afterend', ladderDiv)
-
         //alert("you're at the bottom of the page");
+
+        ExtendLadder(25);
         
     }
 };
