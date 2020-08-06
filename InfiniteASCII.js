@@ -9,6 +9,7 @@ function ExtendLadder(n)
 }
 
 // for when i want to add more visual spice to the page
+// also possibly save how far users go down and add ascii text like ----- this is average user scroll
 function AddStar()
 {
     // * . +
