@@ -1,3 +1,5 @@
+
+/* This is for testing with the PixelParticle.js and DemoIntroPage.html stuff
 * {
     margin:0;
     padding: 0;
@@ -13,4 +15,17 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+} */
+
+body{
+  overflow: hidden;
+  display: block;
+  background: black;
+}
+
+#WelcomeCanvas {
+  left: 0px;
+  margin:0;
+  padding: 0;
+  /* position: absolute; */
 }
