@@ -3,9 +3,10 @@
 
 const canvas = document.getElementById('WelcomeCanvas');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 const bound_rect = canvas.getBoundingClientRect();
+canvas.width = window.innerWidth - bound_rect.x;
+canvas.height = window.innerHeight - bound_rect.y;
+
 
 let particleArray = [];
 const def_size = 3; // default circle size
@@ -164,8 +165,8 @@ function animate() {
     }
     requestAnimationFrame(animate);
 
-    // ctx.strokeStyle = 'red';
-    // ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = 'red';
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
 
