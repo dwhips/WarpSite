@@ -31,9 +31,9 @@ window.addEventListener('mousemove', function (event) {
 ctx.fillStyle = 'white';
 ctx.textAlign = "center";
 ctx.font = '30px Verdana';
-ctx.fillText('WELCOME TO', canvas.width / 2, canvas.height / 2 - 30 / 2); // message, x coord to start painting, y 
+ctx.fillText('WELCOME TO', canvas.width/2, canvas.height/2 - 30/2 -5); // message, x coord to start painting, y 
 ctx.font = 'bold 39px Verdana';
-ctx.fillText('WHIPPLE', canvas.width / 2, canvas.height / 2 + 39 / 2);
+ctx.fillText('WHIPPLE', canvas.width /2, canvas.height/2 + 39/2 +5);
 
 const txt_coord = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
@@ -168,7 +168,6 @@ function animate() {
     ctx.strokeStyle = 'red';
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
-
 
 initParticles();
 animate();
