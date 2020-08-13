@@ -23,8 +23,8 @@ const mouse = {
 
 window.addEventListener('mousemove', function (event) {
     // shift by canvas position x and y, dont use aboslute location
-    mouse.x = event.x - bound_rect.x;
-    mouse.y = event.y - bound_rect.y;
+    mouse.x = event.x - bound_rect.x + window.pageXOffset;
+    mouse.y = event.y - bound_rect.y + window.pageYOffset;
     // console.log(mouse.x, mouse.y);
 });
 
