@@ -2,5 +2,7 @@ function setupVid()
 {
     var url = document.getElementById("youtubeURL").value;
     var url = url.replace('watch?v=','embed/');
-    alert(url)
+    // alert(url)
+    // return url;
+    document.getElementById("utubeWidge").src = url;
 }
