@@ -25,14 +25,17 @@ window.addEventListener('mousemove', function (event) {
     // shift by canvas position x and y, dont use aboslute location
     mouse.x = event.x - bound_rect.x + window.pageXOffset;
     mouse.y = event.y - bound_rect.y + window.pageYOffset;
+    // TODO bug for when screen size is rescaled
+    // mouse.x = Math.floor( mouse.x / canvas.width * 100);
+    // mouse.y = Math.floor( mouse.y / canvas.width * 100);
     // console.log(mouse.x, mouse.y);
 });
 
 ctx.fillStyle = 'white';
 ctx.textAlign = "center";
-ctx.font = '30px Verdana';
+ctx.font = '30px Tahoma';
 ctx.fillText('WELCOME TO', canvas.width/2, canvas.height/2 - 30/2 -5); // message, x coord to start painting, y 
-ctx.font = 'bold 39px Verdana';
+ctx.font = 'bold 39px Tahoma';
 ctx.fillText('WHIPPLE', canvas.width /2, canvas.height/2 + 39/2 +5);
 
 const txt_coord = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -146,8 +149,8 @@ function initParticles() {
         for (let x = 0; x < txt_coord.width; x++) {
             // if pixel detected
             if (txt_coord.data[alpha_inc + 3] > 128) {
-                // let positionX = x;
-                // let positionY = y;
+                // this conversion is to maintain psositive numbers when scaling
+                // not convinved it centers it perfectly
                 let px = x * mag - xy_min[0] * mag;
                 let py = y * mag - xy_min[1] * mag;
                 particleArray.push(new Particle(px + xy_min[0] / 2, py + xy_min[1] / 2));
