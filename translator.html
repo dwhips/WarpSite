@@ -19,11 +19,11 @@
         <option value="zalgo">Zalgo</option>
         <option value="worm">Worm</option>
         <option value="owo">Owo</option>
+    </select>
 
-    <form>
-        <label for="user_txt">Enter your text to translate it</label><br>
-        <input type="text" id="user_txt" name="user_txt" oninput="UpdateTranslation()">
-    </form>
+    <div>
+        <textarea id="user_txt" name="user_txt" oninput="UpdateTranslation()"><textarea></textarea>
+    </div>
 
     <div>
         <p id="trans_txt"> </p>

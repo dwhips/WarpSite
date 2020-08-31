@@ -1,5 +1,6 @@
-input[type=text] {
+#user_txt {
     width: 100%;
+    height: 40vh;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
