@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="NavBar.css">
+    <link rel="stylesheet" href="translator.css">
+</head>
+
+<body>
+    <ul class="NavBar">
+        <li><a href="Home.html">Begin</a></li>
+        <li><a href="PageList.html">Select Experience</a></li>
+        <li><a href="About.html">Learn More</a></li>
+    </ul>
+
+    <form>
+        <label for="user_txt">Enter your text to translate it</label><br>
+        <input type="text" id="user_txt" name="user_txt" oninput="UpdateTranslation()">
+    </form>
+
+    <div>
+        <p id="trans_txt"> </p>
+    </div>
+
+    <script src="translator.js"></script>
+</body>
+
+</html>
