@@ -11,7 +11,7 @@ function UpdateTranslation() {
     // console.log(user_txt.value);
     // console.log(lang.value);
     var text = Translate(user_txt.value);
-    trans_txt.innerHTML = text;
+    trans_txt.textContent = text;
 }
 
 function Translate(txt) {
@@ -35,6 +35,7 @@ function Translate(txt) {
         default:
             console.log("Check the lang.value is properly typed in the html or called in this script");
     }
+    // need a way so strings starting with "<" will still print
     return txt;
 }
 
