@@ -29,6 +29,9 @@ function Translate(txt) {
         case 'worm':
             return Wormify(txt);
             break;
+        case 'owo':
+            return Owoify(txt);
+            break;
         default:
             console.log("Check the lang.value is properly typed in the html or called in this script");
     }
@@ -81,4 +84,12 @@ function Wormify(pzalg) {
         pzalg += text[i];
     }
     return pzalg;
+}
+
+function Owoify(txt) {
+    txt = txt.replace(/l/g, 'w');
+    txt = txt.replace(/r/g, 'w');
+    txt = txt.replace(/L/g, 'W');
+    txt = txt.replace(/R/g, 'W');
+    return txt;
 }
