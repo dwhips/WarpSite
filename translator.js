@@ -22,10 +22,14 @@ function Translate(txt) {
             break;
         case 'backwards':
             console.log("In Backwards");
-            return txt + 'BACKWARS';
+            return Reverse(txt);
             break;
         default:
             console.log("Check the lang.value is properly typed in the html or called in this script");
     }
     return txt;
+}
+
+function Reverse(s) {
+    return s.split("").reverse().join("");
 }
