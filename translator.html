@@ -13,20 +13,25 @@
         <li><a href="About.html">Learn More</a></li>
     </ul>
 
-    <select name="translator" id="translator">
-        <option value="normal">Normal</option>
-        <option value="backwards">Backwards</option>
-        <option value="zalgo">Zalgo</option>
-        <option value="worm">Worm</option>
-        <option value="owo">Owo</option>
-    </select>
+    <div id="selectors">
+        <select id="translator">
+            <option value="backwards">Backwards</option>
+            <option value="zalgo">Zalgo</option>
+            <option value="worm">Worm</option>
+            <option value="owo">Owo</option>
+            <option value="cyrllic">Cryllic</option>
+        </select>
+
+        <button id="copy_bttn" onclick="copyToClipboard()">Copy</button>
+
+        <!-- add font slider -->
+    </div>
 
     <div>
         <textarea id="user_txt" style="resize: none" oninput="UpdateTranslation()"></textarea>
     </div>
 
     <div>
-        <!-- <p id="trans_txt"> </p> -->
         <textarea readonly="readonly" id="trans_txt" style="resize: none"></textarea>
     </div>
 
