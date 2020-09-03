@@ -49,23 +49,23 @@ window.onscroll = function(ev) {
 
     }
 };
-// Add a check for if the page is too zoomed out at the start
-function CheckSmallPage() {
-    var i = 0;
-    while (!CheckScrollable() && i < 20) {
-        ExtendLadder(1);
-        i++;
-    }
-}
+// // Add a check for if the page is too zoomed out at the start
+// function CheckSmallPage() {
+//     var i = 0;
+//     while (!CheckScrollable() && i < 20) {
+//         ExtendLadder(1);
+//         i++;
+//     }
+// }
 
-// very buggy
-function CheckScrollable() {
-    // var scrollHeight = document.body.scrollHeight;
-    // var clientHeight = document.documentElement.clientHeight;
-    var hasScrollbar = window.innerWidth > document.documentElement.clientHeight
-    console.log(hasScrollbar);
-    // return scrollHeight > clientHeight;
-    return hasScrollbar;
-}
+// // very buggy
+// function CheckScrollable() {
+//     // var scrollHeight = document.body.scrollHeight;
+//     // var clientHeight = document.documentElement.clientHeight;
+//     var hasScrollbar = window.innerWidth > document.documentElement.clientHeight
+//     console.log(hasScrollbar);
+//     // return scrollHeight > clientHeight;
+//     return hasScrollbar;
+// }
 
-CheckSmallPage();
+// CheckSmallPage();
