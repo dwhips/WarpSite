@@ -1,34 +1,34 @@
-<!DOCTYPE html>
-<html>
+<DOCTYPE html>
+    <html>
 
-<head>
-    <link rel="stylesheet" href="NavBar.css">
-    <link rel="stylesheet" href="translator.css">
-</head>
+    <head>
+        <link rel="stylesheet" href="NavBar.css">
+        <link rel="stylesheet" href="translator.css">
+    </head>
 
-<body>
-    <div class="header">
-        <div class="inner_header">
-            <div class="logo_container">
-                <h1>WelcomeTo<span>Whipple</span></h1>
+    <body>
+        <div class="header">
+            <div class="inner_header">
+                <div class="logo_container">
+                    <h1>WelcomeTo<span>Whipple</span></h1>
+                </div>
+
+                <ul class="Navigation">
+                    <a href="index.html">
+                        <li>Home</li>
+                    </a>
+                    <a href="PageList.html">
+                        <li>Explore</li>
+                    </a>
+                    <a href="About.html">
+                        <li>Learn More</li>
+                    </a>
+                </ul>
             </div>
-
-            <ul class="Navigation">
-                <a href="index.html">
-                    <li>Home</li>
-                </a>
-                <a href="PageList.html">
-                    <li>Explore</li>
-                </a>
-                <a href="About.html">
-                    <li>Learn More</li>
-                </a>
-            </ul>
         </div>
-    </div>
 
-    <div id="selectors">
-        <select id="translator">
+        <div id="selectors">
+            <select id="translator">
             <option value="backwards">Backwards</option>
             <option value="zalgo">Zalgo</option>
             <option value="worm">Worm</option>
@@ -36,20 +36,20 @@
             <!-- <option value="cryllic">Cryllic</option> -->
         </select>
 
-        <button id="copy_bttn" onclick="copyToClipboard()">Copy</button>
+            <button id="copy_bttn" onclick="copyToClipboard()">Copy</button>
 
-        <!-- add font slider -->
-    </div>
+            <!-- add font slider -->
+        </div>
 
-    <div>
-        <textarea id="user_txt" style="resize: none" oninput="UpdateTranslation()"></textarea>
-    </div>
+        <div>
+            <textarea id="user_txt" style="resize: none" oninput="UpdateTranslation()"></textarea>
+        </div>
 
-    <div>
-        <textarea readonly="readonly" id="trans_txt" style="resize: none"></textarea>
-    </div>
+        <div>
+            <textarea readonly="readonly" id="trans_txt" style="resize: none"></textarea>
+        </div>
 
-    <script src="translator.js"></script>
-</body>
+        <script src="translator.js"></script>
+    </body>
 
-</html>
+    </html>
