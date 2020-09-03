@@ -1,27 +1,70 @@
-
-.NavBar {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
 }
 
-.NavBar li a {
-  float: left;
-
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+.header {
+    width: 100%;
+    height: 80px;
+    display: block;
+    background-color: #1C110A;
 }
 
-/* Change the link color to #111 (black) on hover */
-.NavBar li a:hover {
-  background-color: #111;
+.inner_header {
+    /* max-width: 100%;
+    min-width: 60%; */
+    width: 90%;
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+    background-color: #1C110A;
+}
+
+.logo_container {
+    height: 100%;
+    display: table;
+    float: left;
+}
+
+.logo_container h1 {
+    color: white;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Montserrat';
+    font-size: 32px;
+    font-weight: 200;
+}
+
+.logo_container h1 span {
+    font-weight: 800;
+}
+
+.navigation {
+    float: right;
+    height: 100%;
+}
+
+.navigation a {
+    color: white;
+    font-family: 'Montserrat';
+    height: 100%;
+    display: table;
+    float: left;
+    padding: 10px;
+}
+
+.navigation a li {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.Navigation a:hover {
+    background-color: #50A2A7;
 }
 
 .active {
-    background-color: #111;
-  }
+    background-color: #50A2A7;
+}
