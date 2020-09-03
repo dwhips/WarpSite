@@ -7,11 +7,25 @@
 </head>
 
 <body>
-    <ul class="NavBar">
-        <li><a href="Home.html">Begin</a></li>
-        <li><a href="PageList.html">Select Experience</a></li>
-        <li><a href="About.html">Learn More</a></li>
-    </ul>
+    <div class="header">
+        <div class="inner_header">
+            <div class="logo_container">
+                <h1>WelcomeTo<span>Whipple</span></h1>
+            </div>
+
+            <ul class="Navigation">
+                <a href="index.html">
+                    <li>Home</li>
+                </a>
+                <a href="PageList.html">
+                    <li>Explore</li>
+                </a>
+                <a href="About.html">
+                    <li>Learn More</li>
+                </a>
+            </ul>
+        </div>
+    </div>
 
     <div id="selectors">
         <select id="translator">
@@ -19,7 +33,7 @@
             <option value="zalgo">Zalgo</option>
             <option value="worm">Worm</option>
             <option value="owo">Owo</option>
-            <option value="cyrllic">Cryllic</option>
+            <!-- <option value="cryllic">Cryllic</option> -->
         </select>
 
         <button id="copy_bttn" onclick="copyToClipboard()">Copy</button>

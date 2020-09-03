@@ -7,15 +7,30 @@
 </head>
 
 <body>
-    <ul class="NavBar">
-        <li><a href="Home.html">Begin</a></li>
-        <li><a href="PageList.html">Select Experience</a></li>
-        <li><a href="About.html">Learn More</a></li>
-    </ul>
+    <div class="header">
+        <div class="inner_header">
+            <div class="logo_container">
+                <h1>WelcomeTo<span>Whipple</span></h1>
+            </div>
+
+            <ul class="Navigation">
+                <a href="index.html">
+                    <li>Home</li>
+                </a>
+                <a href="PageList.html">
+                    <li>Explore</li>
+                </a>
+                <a href="About.html">
+                    <li>Learn More</li>
+                </a>
+            </ul>
+        </div>
+    </div>
 
     <p>Paste in a youtube link to initiate rave (Delete this later once page looks good)</p>
     <div>
         <input type="text" id="youtubeURL">
+        <!-- use this cool css https://codepen.io/kathykato/full/rZRaNe -->
         <button type="button" onclick="setupVid()">Play Video</button>
     </div>
 
@@ -27,6 +42,8 @@
     </iframe>
 
     <p id="dummytxt">dummy</p>
+
+    <iframe src="https://open.spotify.com/embed/playlist/6nfIhZMfdy1xaLo7y1gIOw" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
 </body>
 
