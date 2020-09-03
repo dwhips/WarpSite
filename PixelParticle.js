@@ -21,7 +21,7 @@ const mouse = {
     radius: sense_dist //particle react area
 }
 
-window.addEventListener('mousemove', function (event) {
+window.addEventListener('mousemove', function(event) {
     // shift by canvas position x and y, dont use aboslute location
     mouse.x = event.x - bound_rect.x + window.pageXOffset;
     mouse.y = event.y - bound_rect.y + window.pageYOffset;
@@ -34,9 +34,9 @@ window.addEventListener('mousemove', function (event) {
 ctx.fillStyle = 'white';
 ctx.textAlign = "center";
 ctx.font = '30px Tahoma';
-ctx.fillText('WELCOME TO', canvas.width/2, canvas.height/2 - 30/2 -5); // message, x coord to start painting, y 
+ctx.fillText('WELCOME TO', canvas.width / 2, canvas.height / 2 - 30 / 2 - 5); // message, x coord to start painting, y 
 ctx.font = 'bold 39px Tahoma';
-ctx.fillText('WHIPPLE', canvas.width /2, canvas.height/2 + 39/2 +5);
+ctx.fillText('WHIPPLE', canvas.width / 2, canvas.height / 2 + 39 / 2 + 5);
 
 const txt_coord = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
@@ -71,8 +71,7 @@ class Particle {
             this.x -= directionX;
             this.y -= directionY;
             this.size = grow_size;
-        }
-        else {
+        } else {
             if (this.x != this.baseX) {
                 let dx = this.x - this.baseX;
                 this.x -= dx / 10; // touch up
@@ -168,8 +167,8 @@ function animate() {
     }
     requestAnimationFrame(animate);
 
-    ctx.strokeStyle = 'red';
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    // ctx.strokeStyle = 'red';
+    // ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
 initParticles();
