@@ -10,8 +10,8 @@
 
 #gbl_button:active {
     background-color: black;
-    width: 220px;
-    height: 60px;
+    /* width: 220px;
+    height: 60px; */
     color: white;
 }
 
