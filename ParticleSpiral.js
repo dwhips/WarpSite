@@ -1,8 +1,13 @@
+// mostly sourced from https://www.youtube.com/watch?v=5MUsKgU6i0I&ab_channel=ChrisCourses
+
 const canvas = document.getElementById('particle_spiral');
 const c = canvas.getContext('2d');
 
+var generate_spirals = true;
+
 canvas.width = innerWidth;
 canvas.height = innerHeight;
+
 
 const mouse = {
     x: innerWidth / 2,
@@ -23,6 +28,13 @@ addEventListener('resize', () => {
     canvas.height = innerHeight
 
     init()
+})
+
+// toggle between generating spirals and not
+addEventListener('click', () => {
+    generate_spirals = !generate_spirals
+
+    generateRing()
 })
 
 // Objects
@@ -61,25 +73,27 @@ function init() {
 let hue = 0
 let hueRadians = 0
 function generateRing() {
-    setTimeout(generateRing, 200)
-    hue = Math.sin(hueRadians)
+    if (generate_spirals) {
+        setTimeout(generateRing, 200)
+        hue = Math.sin(hueRadians)
 
-    const particleCount = 100
+        const particleCount = 100
 
-    for (let i = 0; i < particleCount; i++) {
-        // full circle = pi * 2 radians
-        const radian = (Math.PI * 2) / particleCount
-        const x = mouse.x
-        const y = mouse.y
-        particles.push(
-            new Particle(x, y, 5, `hsl(${Math.abs(hue * 360)}, 50%, 50%)`, {
-                x: Math.cos(radian * i) * 3,
-                y: Math.sin(radian * i) * 3
-            })
-        )
+        for (let i = 0; i < particleCount; i++) {
+            // full circle = pi * 2 radians
+            const radian = (Math.PI * 2) / particleCount
+            const x = mouse.x
+            const y = mouse.y
+            particles.push(
+                new Particle(x, y, 5, `hsl(${Math.abs(hue * 360)}, 50%, 50%)`, {
+                    x: Math.cos(radian * i) * 3,
+                    y: Math.sin(radian * i) * 3
+                })
+            )
+        }
     }
-
     hueRadians += 0.01
+
 }
 
 // Animation Loop
