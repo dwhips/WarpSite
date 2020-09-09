@@ -21,7 +21,7 @@ const mouse = {
     radius: sense_dist //particle react area
 }
 
-window.addEventListener('mousemove', function(event) {
+window.addEventListener('mousemove', function (event) {
     // shift by canvas position x and y, dont use aboslute location
     mouse.x = event.x - bound_rect.x + window.pageXOffset;
     mouse.y = event.y - bound_rect.y + window.pageYOffset;
@@ -30,6 +30,14 @@ window.addEventListener('mousemove', function(event) {
     // mouse.y = Math.floor( mouse.y / canvas.width * 100);
     // console.log(mouse.x, mouse.y);
 });
+
+addEventListener('resize', () => {
+    canvas.width = window.innerWidth - bound_rect.x;
+    canvas.height = window.innerHeight - bound_rect.y;
+
+    init()
+})
+
 
 ctx.fillStyle = 'white';
 ctx.textAlign = "center";
