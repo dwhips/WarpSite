@@ -5,8 +5,8 @@ const c = canvas.getContext('2d');
 
 var generate_spirals = true;
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+// canvas.width = innerWidth;
+// canvas.height = innerHeight;
 
 
 const mouse = {
@@ -21,6 +21,7 @@ addEventListener('mousemove', (event) => {
     mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 })
 
+// need for mobile, make sure it works
 addEventListener("touchmove", function (e) {
     delta = (e.changedTouches[0].clientX - window.innerWidth / 2) * 0.5;
     handle.style.left = e.changedTouches[0].clientX + delta + "px";
@@ -31,6 +32,8 @@ addEventListener("touchmove", function (e) {
 addEventListener('resize', () => {
     canvas.width = innerWidth
     canvas.height = innerHeight
+
+
 
     init()
 })
@@ -73,6 +76,10 @@ class Particle {
 let particles
 function init() {
     particles = []
+
+    var bound_rect = canvas.getBoundingClientRect();
+    canvas.width = window.innerWidth - bound_rect.x;
+    canvas.height = window.innerHeight - bound_rect.y;
 }
 
 let hue = 0
