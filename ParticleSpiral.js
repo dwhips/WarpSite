@@ -21,6 +21,11 @@ addEventListener('mousemove', (event) => {
     mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 })
 
+addEventListener("touchmove", function (e) {
+    delta = (e.changedTouches[0].clientX - window.innerWidth / 2) * 0.5;
+    handle.style.left = e.changedTouches[0].clientX + delta + "px";
+    topLayer.style.width = e.changedTouches[0].clientX + skew + delta + "px";
+});
 
 
 addEventListener('resize', () => {
@@ -103,9 +108,17 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height)
 
     particles.forEach((particle, i) => {
-        if (particle.ttl < 0) {
+
+        if (particle.x < 0 || particle.x > canvas.width) {
             particles.splice(i, 1)
-        } else {
+        }
+        else if (particle.y < 0 || particle.y > canvas.height) {
+            particles.splice(i, 1)
+        }
+        else if (particle.ttl < 0) {
+            particles.splice(i, 1)
+        }
+        else {
             particle.update()
         }
     })
