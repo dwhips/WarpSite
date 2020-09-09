@@ -3,6 +3,8 @@
 
 const canvas = document.getElementById('WelcomeCanvas');
 const ctx = canvas.getContext('2d');
+
+// TODO might need this to change when resize browser window
 const bound_rect = canvas.getBoundingClientRect();
 canvas.width = window.innerWidth - bound_rect.x;
 canvas.height = window.innerHeight - bound_rect.y;
@@ -21,15 +23,26 @@ const mouse = {
     radius: sense_dist //particle react area
 }
 
-window.addEventListener('mousemove', function (event) {
-    // shift by canvas position x and y, dont use aboslute location
-    mouse.x = event.x - bound_rect.x + window.pageXOffset;
-    mouse.y = event.y - bound_rect.y + window.pageYOffset;
-    // TODO bug for when screen size is rescaled
-    // mouse.x = Math.floor( mouse.x / canvas.width * 100);
-    // mouse.y = Math.floor( mouse.y / canvas.width * 100);
-    // console.log(mouse.x, mouse.y);
-});
+// window.addEventListener('mousemove', function (event) {
+//     // shift by canvas position x and y, dont use aboslute location
+//     mouse.x = event.x - bound_rect.x + window.pageXOffset;
+//     mouse.y = event.y - bound_rect.y + window.pageYOffset;
+//     // TODO bug for when screen size is rescaled
+//     // mouse.x = Math.floor( mouse.x / canvas.width * 100);
+//     // mouse.y = Math.floor( mouse.y / canvas.width * 100);
+//     // console.log(mouse.x, mouse.y);
+// });
+
+addEventListener('mousemove', (event) => {
+    var rect = canvas.getBoundingClientRect();
+
+    mouse.x = (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+
+    // mouse.x = event.clientX
+    // mouse.y = event.clientY
+})
+
 
 addEventListener('resize', () => {
     canvas.width = window.innerWidth - bound_rect.x;
