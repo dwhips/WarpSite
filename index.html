@@ -11,6 +11,16 @@
 
     <body>
 
+        <div id="myNav" class="overlay">
+            <a class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="overlay-content">
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Clients</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+
         <body>
             <div class="header">
                 <div class="inner_header">
@@ -21,19 +31,44 @@
                     </a>
 
                     <ul class="Navigation">
-                        <!-- <a class="active" href="index.html">
+                        <div class="hide-desktop">
+                            <!-- <a class="active" href="index.html">
                             <li>Home</li>
                         </a> -->
-                        <a href="PageList.html">
-                            <li>Explore</li>
-                        </a>
-                        <a href="About.html">
-                            <li>Learn More</li>
-                        </a>
+                            <a href="PageList.html">
+                                <li>Explore</li>
+                            </a>
+                            <a href="About.html">
+                                <li>Learn More</li>
+                            </a>
+                        </div>
+
+                        <div class="hide-mobile">
+                            <a>
+                                <li>
+                                    <span style="font-size:30px;cursor:pointer;color:white;"
+                                        onclick="openNav()">&#9660</span>
+                                </li>
+                            </a>
+
+                        </div>
+
+
                     </ul>
                 </div>
             </div>
+            <!-- Control full page menu for mobile view -->
+            <script>
+                function openNav() {
+                    document.getElementById("myNav").style.height = "100%";
+                }
 
+                function closeNav() {
+                    document.getElementById("myNav").style.height = "0%";
+                }
+            </script>
+
+            <!-- Particle effect welcome canvas -->
             <div>
                 <!-- add resize event listener in js -->
                 <canvas id='WelcomeCanvas'></canvas>
