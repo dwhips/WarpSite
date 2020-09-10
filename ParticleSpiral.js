@@ -14,6 +14,9 @@ const mouse = {
     y: innerHeight / 2
 }
 
+// TODO reak out to helper js file
+function isMobile() { return ('ontouchstart' in document.documentElement); }
+
 addEventListener('mousemove', (event) => {
     var rect = canvas.getBoundingClientRect();
 
@@ -23,9 +26,9 @@ addEventListener('mousemove', (event) => {
 
 // need for mobile, make sure it works
 addEventListener("touchmove", function (e) {
-    delta = (e.changedTouches[0].clientX - window.innerWidth / 2) * 0.5;
-    handle.style.left = e.changedTouches[0].clientX + delta + "px";
-    topLayer.style.width = e.changedTouches[0].clientX + skew + delta + "px";
+    // var touch = event.touches[i];
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
 });
 
 
