@@ -10,3 +10,19 @@
     /* Fallback for older browsers without RGBA-support */
     background: rgba(80, 162, 167, 0.5);
 }
+
+.select_box ul li{
+    width: 75%;
+    margin: 12px auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    color: whitesmoke;
+    font-family: 'Montserrat';
+    font-size: 30px;
+
+    /* background-color: black; */
+    background: rgb(80, 162, 167);
+    /* Fallback for older browsers without RGBA-support */
+    background: rgba(80, 162, 167, 0.5);
+}
