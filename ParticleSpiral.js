@@ -15,7 +15,7 @@ const mouse = {
 }
 
 // TODO reak out to helper js file
-function isMobile() { return ('ontouchstart' in document.documentElement); }
+// function isMobile() { return ('ontouchstart' in document.documentElement); }
 
 addEventListener('mousemove', (event) => {
     var rect = canvas.getBoundingClientRect();
@@ -40,17 +40,11 @@ canvas.ontouchmove = function (event) {
 }
 
 addEventListener('resize', () => {
-    canvas.width = window.innerWidth - bound_rect.x;
-    canvas.height = window.innerHeight - bound_rect.y;
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = window.innerWidth - rect.x;
+    canvas.height = window.innerHeight - rect.y;
     init()
 })
-
-// // toggle between generating spirals and not
-// addEventListener('click', () => {
-//     generate_spirals = !generate_spirals
-
-//     generateRing()
-// })
 
 // Objects
 class Particle {
@@ -120,10 +114,11 @@ function animate() {
     requestAnimationFrame(animate)
     c.fillStyle = 'rgba(0, 0, 0, 0.1)'
     c.fillRect(0, 0, canvas.width, canvas.height)
+    let rad = 5*2; // hardcode i know
 
     particles.forEach((particle, i) => {
 
-        if (particle.x < 0 || particle.x > canvas.width) {
+        if (particle.x < -1*canvas.width*.1 || particle.x > canvas.width*1.1) {
             particles.splice(i, 1)
         }
         else if (particle.y < 0 || particle.y > canvas.height) {
