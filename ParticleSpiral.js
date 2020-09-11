@@ -3,7 +3,7 @@
 const canvas = document.getElementById('particle_spiral');
 const c = canvas.getContext('2d');
 
-var generate_spirals = true;
+// var generate_spirals = true;
 
 // canvas.width = innerWidth;
 // canvas.height = innerHeight;
@@ -24,13 +24,20 @@ addEventListener('mousemove', (event) => {
     mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 })
 
-// need for mobile, make sure it works
-addEventListener("touchmove", function (e) {
-    // var touch = event.touches[i];
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
+// Mouse move for mobile
+canvas.ontouchstart = function (event) {
+    event.preventDefault();
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+}
 
+canvas.ontouchmove = function (event) {
+    event.preventDefault();
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+}
 
 addEventListener('resize', () => {
     canvas.width = window.innerWidth - bound_rect.x;
@@ -38,12 +45,12 @@ addEventListener('resize', () => {
     init()
 })
 
-// toggle between generating spirals and not
-addEventListener('click', () => {
-    generate_spirals = !generate_spirals
+// // toggle between generating spirals and not
+// addEventListener('click', () => {
+//     generate_spirals = !generate_spirals
 
-    generateRing()
-})
+//     generateRing()
+// })
 
 // Objects
 class Particle {
@@ -85,7 +92,7 @@ function init() {
 let hue = 0
 let hueRadians = 0
 function generateRing() {
-    if (generate_spirals) {
+    // if (generate_spirals) {
         setTimeout(generateRing, 200)
         hue = Math.sin(hueRadians)
 
@@ -103,7 +110,7 @@ function generateRing() {
                 })
             )
         }
-    }
+    // }
     hueRadians += 0.01
 
 }
@@ -122,6 +129,7 @@ function animate() {
         else if (particle.y < 0 || particle.y > canvas.height) {
             particles.splice(i, 1)
         }
+        // timer kill just in case
         else if (particle.ttl < 0) {
             particles.splice(i, 1)
         }
