@@ -13,7 +13,8 @@ canvas.height = window.innerHeight - bound_rect.y;   // TODO might want size to 
 let particleArray = [];
 const def_size = 3; // default circle size
 const grow_size = 5; // size of circle within range
-const sense_dist = 125; // range of mouse
+const sense_dist = 125 * (canvas.width / 1500); // range of mouse
+console.log("sense dist: "+sense_dist);
 mag = 5; // magnify condensed font to pixel
 
 // handle mouse
@@ -23,16 +24,22 @@ const mouse = {
     radius: sense_dist //particle react area
 }
 
-// window.addEventListener('mousemove', function (event) {
-//     // shift by canvas position x and y, dont use aboslute location
-//     mouse.x = event.x - bound_rect.x + window.pageXOffset;
-//     mouse.y = event.y - bound_rect.y + window.pageYOffset;
-//     // TODO bug for when screen size is rescaled
-//     // mouse.x = Math.floor( mouse.x / canvas.width * 100);
-//     // mouse.y = Math.floor( mouse.y / canvas.width * 100);
-//     // console.log(mouse.x, mouse.y);
-// });
+// Mouse move for mobile
+canvas.ontouchstart = function (event) {
+    event.preventDefault();
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+}
 
+canvas.ontouchmove = function (event) {
+    event.preventDefault();
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+}
+
+// Mouse move for desktop
 addEventListener('mousemove', (event) => {
     var rect = canvas.getBoundingClientRect();
 
