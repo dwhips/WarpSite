@@ -40,13 +40,7 @@ function normalPDF(x, mu, sigma) {
 }
 
 function InitWaves(ctx, canvas) {
-    // Determine x and y range
-    // var xMin = 150;
-
-    // if (canvas.width/10 < xMin)
-    // {
-    xMin = canvas.width / 10;
-    // }
+    var xMin = canvas.width / 10;
     var xMax = canvas.width - xMin;
     var yMin = 100;
     var yMax = canvas.height - yMin;
@@ -104,10 +98,9 @@ function InitWaves(ctx, canvas) {
 
 function DrawAllWaves(ctx, canvas, general_wave_data) {
     // Determine x and y range
-    var xMin = 140;
-    if (canvas.width / 10 < xMin) {
-        xMin = canvas.width / 10;
-    }
+
+    var xMin = canvas.width / 10;
+
     var xMax = canvas.width - xMin;
     var yMin = 100;
     var yMax = canvas.height - yMin;
