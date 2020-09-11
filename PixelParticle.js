@@ -8,7 +8,7 @@ const ctx = canvas.getContext('2d');
 const bound_rect = canvas.getBoundingClientRect();
 canvas.width = window.innerWidth - bound_rect.x;
 canvas.height = window.innerHeight - bound_rect.y;
-
+// canvas.b
 
 let particleArray = [];
 const def_size = 3; // default circle size
@@ -44,22 +44,43 @@ addEventListener('mousemove', (event) => {
 })
 
 
+ctx.fillStyle = 'white';
+ctx.textAlign = "center";
+// get var for px sizing   30>
+ctx.font = '20px Tahoma';
+ctx.fillText('WELCOME TO', canvas.width / 2, canvas.height / 2 - 30 / 2 - 5); // message, x coord to start painting, y 
+// get var for px sizing    39>
+ctx.font = 'bold 26px Tahoma';
+ctx.fillText('WHIPPLE', canvas.width / 2, canvas.height / 2 + 39 / 2 + 5);
+
+const txt_coord = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
 addEventListener('resize', () => {
     canvas.width = window.innerWidth - bound_rect.x;
     canvas.height = window.innerHeight - bound_rect.y;
 
-    init()
+    ctx.fillStyle = 'white';
+    ctx.textAlign = "center";
+    // get var for px sizing   30>
+    ctx.font = '20px Tahoma';
+    ctx.fillText('WELCOME TO', canvas.width / 2, canvas.height / 2 - 30 / 2 - 5); // message, x coord to start painting, y 
+    // get var for px sizing    39>
+    ctx.font = 'bold 26px Tahoma';
+    ctx.fillText('WHIPPLE', canvas.width / 2, canvas.height / 2 + 39 / 2 + 5);
+
+    // memory leak? idk
+    const txt_coord = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    initParticles();
 })
 
+// Just so i only calc this once
+const Rgb_goal = 80;
+const rGb_goal = 162;
+const rgB_goal = 167;
 
-ctx.fillStyle = 'white';
-ctx.textAlign = "center";
-ctx.font = '30px Tahoma';
-ctx.fillText('WELCOME TO', canvas.width / 2, canvas.height / 2 - 30 / 2 - 5); // message, x coord to start painting, y 
-ctx.font = 'bold 39px Tahoma';
-ctx.fillText('WHIPPLE', canvas.width / 2, canvas.height / 2 + 39 / 2 + 5);
-
-const txt_coord = ctx.getImageData(0, 0, canvas.width, canvas.height);
+const Rgb_rate = (255 - Rgb_goal)/20;
+const rGb_rate = (255 - rGb_goal)/20;
+const rgB_rate = (255 - rgB_goal)/20;
 
 class Particle {
     constructor(x, y) {
@@ -69,9 +90,13 @@ class Particle {
         this.baseX = this.x;
         this.baseY = this.y;
         this.density = (Math.random() * 30) + 1; //give random weight
+        // I cant tell if the var names are genius or terrible
+        this.Rgb = 255;
+        this.rGb = 255;
+        this.rgB = 255; 
     }
     draw() {
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = "rgb("+this.Rgb+ ","+this.rGb+","+this.rgB+")";
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.closePath();
@@ -92,6 +117,15 @@ class Particle {
             this.x -= directionX;
             this.y -= directionY;
             this.size = grow_size;
+
+            let pp = 100;
+
+            if (this.Rgb > pp || this.rGb > pp || this.rgB > pp)
+            {
+                this.Rgb -= Rgb_rate;
+                this.rGb -= rGb_rate;
+                this.rgB -= rgB_rate;
+            }
         } else {
             if (this.x != this.baseX) {
                 let dx = this.x - this.baseX;
@@ -102,6 +136,16 @@ class Particle {
                 this.y -= dy / 10; // touch up
             }
             this.size = def_size;
+            this.Rgb += Rgb_rate/2;
+            this.rGb += rGb_rate/2;
+            this.rgB += rgB_rate/2;
+
+            if (this.Rgb > 255 || this.rGb > 255 || this.rgB > 255)
+            {
+                this.Rgb = 255;
+                this.rGb = 255;
+                this.rgB = 255;
+            }
         }
     }
 }
