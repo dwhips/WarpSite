@@ -66,11 +66,10 @@ function DrawText(text_top, text_bottom) {
     let bot_font = 13;
     let min_width = 400;
 
-    if (canvas.width > min_width)
-    {
-        let width_ratio = canvas.width/min_width;
-        let top_ratio = (30-top_font) / (1500 / min_width);
-        let bot_ratio = (39-bot_font) / (1500 / min_width);
+    if (canvas.width > min_width) {
+        let width_ratio = canvas.width / min_width;
+        let top_ratio = (30 - top_font) / (1500 / min_width);
+        let bot_ratio = (39 - bot_font) / (1500 / min_width);
         top_font = width_ratio * top_font; // see function header for these rates
         bot_font = width_ratio * bot_font;
     }
@@ -88,7 +87,7 @@ function DrawText(text_top, text_bottom) {
     // get var for px sizing    39>
     ctx.font = 'bold ' + bot_font + 'px Tahoma';
     ctx.fillText(text_bottom, canvas.width / 2, canvas.height / 2 + bot_font / 2 + 5);
-    
+
     return ctx.getImageData(0, 0, canvas.width, canvas.height);
 }
 
@@ -195,51 +194,24 @@ function maxCanvasTextSize(canvas2D) {
     return [max_x, max_y];
 }
 
-// TODO verify i still need this
-function minCanvasTextSize(canvas2D) {
-    // using canvas obviously makes this a little less protable. not worth fixing tho
-    // const txt_coord = canvas2D.getImageData(0, 0, canvas.width, canvas.height);
-
-    let min_x = txt_coord.width;
-    let min_y = txt_coord.height;
-    // canvas is transparent so only text is color based in txt_coord
-
-    let alpha_inc = 0;
-    for (let y = 0, y2 = txt_coord.height; y < y2; y++) {
-        for (let x = 0, x2 = txt_coord.width; x < x2; x++) {
-            if (txt_coord.data[alpha_inc + 3] > 128) {
-
-                if (x < min_x) {
-                    min_x = x;
-                }
-                if (y < min_y) {
-                    min_y = y;
-                }
-            }
-            alpha_inc += 4;
-        }
-    }
-    return [min_x, min_y];
-}
-
 function initParticles() {
     particleArray = [];
     // canvas is transparent so only text is color based in txt_coord
-    let xy_min = minCanvasTextSize(ctx);
-
     let alpha_inc = 0;
     for (let y = 0; y < txt_coord.height; y++) {
         for (let x = 0; x < txt_coord.width; x++) {
             // if pixel detected
             if (txt_coord.data[alpha_inc + 3] > 128) {
-                // this conversion is to maintain psositive numbers when scaling
-                // not convinved it centers it perfectly
-                /*let px = x * mag - xy_min[0] * mag;
-                let py = y * mag - xy_min[1] * mag;
 
-                particleArray.push(new Particle(px + xy_min[0] / 2, py + xy_min[1] / 2));
-                */
-                particleArray.push(new Particle(x, y));
+                // keep spacing relative to center line with the mag
+                let center_width = canvas.width / 2;
+                let center_height = canvas.height / 2;
+                let x_diff = center_width - x;
+                let y_diff = center_height - y;
+                let px = center_width - x_diff * mag;
+                let py = center_height - y_diff * mag;
+
+                particleArray.push(new Particle(px, py));
             }
             alpha_inc += 4;
         }
@@ -252,12 +224,6 @@ function animate() {
         particleArray[i].draw();
         particleArray[i].update();
     }
-    //  TODO delete me : draw centerline
-    ctx.strokeStyle = "#FF0000";
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2, 0);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.stroke();
 
     requestAnimationFrame(animate);
 
