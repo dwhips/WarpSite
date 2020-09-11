@@ -13,7 +13,7 @@ ctx.fillRect(0, 0, canvas.width, canvas.height)
 addEventListener('resize', () => {
     canvas.width = window.innerWidth - bound_rect.x;
     canvas.height = window.innerHeight - bound_rect.y;
-    // InitWaves(ctx, canvas);
+    general_wave = InitWaves(ctx, canvas);
 })
 
 function rand(min, max) {
@@ -41,12 +41,12 @@ function normalPDF(x, mu, sigma) {
 
 function InitWaves(ctx, canvas) {
     // Determine x and y range
-    var xMin = 150;
-    
-    if (canvas.width/10 < xMin)
-    {
-        xMin = canvas.width/10;
-    }
+    // var xMin = 150;
+
+    // if (canvas.width/10 < xMin)
+    // {
+    xMin = canvas.width / 10;
+    // }
     var xMax = canvas.width - xMin;
     var yMin = 100;
     var yMax = canvas.height - yMin;
@@ -105,9 +105,8 @@ function InitWaves(ctx, canvas) {
 function DrawAllWaves(ctx, canvas, general_wave_data) {
     // Determine x and y range
     var xMin = 140;
-    if (canvas.width/10 < xMin)
-    {
-        xMin = canvas.width/10;
+    if (canvas.width / 10 < xMin) {
+        xMin = canvas.width / 10;
     }
     var xMax = canvas.width - xMin;
     var yMin = 100;
