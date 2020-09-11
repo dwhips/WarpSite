@@ -9,7 +9,12 @@ canvas.height = window.innerHeight - bound_rect.y;
 ctx.fillStyle = 'black'
 ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-// Determine the number of lines and the number of points per line
+
+addEventListener('resize', () => {
+    canvas.width = window.innerWidth - bound_rect.x;
+    canvas.height = window.innerHeight - bound_rect.y;
+    // InitWaves(ctx, canvas);
+})
 
 function rand(min, max) {
     return Math.random() * (max - min) + min
@@ -36,7 +41,12 @@ function normalPDF(x, mu, sigma) {
 
 function InitWaves(ctx, canvas) {
     // Determine x and y range
-    var xMin = 140;
+    var xMin = 150;
+    
+    if (canvas.width/10 < xMin)
+    {
+        xMin = canvas.width/10;
+    }
     var xMax = canvas.width - xMin;
     var yMin = 100;
     var yMax = canvas.height - yMin;
@@ -89,13 +99,16 @@ function InitWaves(ctx, canvas) {
         y = y + dy
         ctx.moveTo(x, y)
     }
-    console.log(general_wave_data);
     return general_wave_data;
 }
 
 function DrawAllWaves(ctx, canvas, general_wave_data) {
     // Determine x and y range
     var xMin = 140;
+    if (canvas.width/10 < xMin)
+    {
+        xMin = canvas.width/10;
+    }
     var xMax = canvas.width - xMin;
     var yMin = 100;
     var yMax = canvas.height - yMin;
