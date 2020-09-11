@@ -1,0 +1,32 @@
+#user_txt {
+    width: 100%;
+    height: 40vh;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 35px;
+}
+
+#trans_txt {
+    width: 100%;
+    height: 40vh;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 35px;
+}
+
+#translator {
+    min-width: 500px;
+    width: 25%;
+    height: 30px;
+}
+
+#selectors {
+    margin: 0 auto;
+    width: 100%;
+}
+
+#copy_bttn {
+    height: 30px;
+}

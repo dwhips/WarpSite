@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <link rel="stylesheet" href="NavBar.css">
-        <link rel="stylesheet" href="format.css">
+        <link rel="stylesheet" href="GlobalClicker.css">
     </head>
 
     <body>
@@ -53,14 +53,18 @@
 
                 
 
-        <div class="select_box">
-            <ul>
-                <li> <a href="translator.html">Internet Translator</a> </li>
-                <li> <a href="UnkownPleasure.html">Unknown Pleasure</a> </li>
-                <li> <a href="InfiniteASCII.html">Infinite Ascii</a> </li>
-                <li> <a href="ParticleSpiral.html">Particle Spiral</a> </li>
-            </ul>
+        <p>This page will increases its counter every time someone clicks it. Have static domain so cant do it yet</p>
+
+        <div>
+            <p id="counter">0</p>
         </div>
+
+        <div>
+            <button id="gbl_button" type="button" onclick="buttonClicked()">CLICK ME</button>
+        </div>
+        <script src="GlobalClicker.js"></script>
+
+        <p>TO COME! last time the clicker was incremented and the general location as well as % of total clicks</p>
 
     </body>
 
