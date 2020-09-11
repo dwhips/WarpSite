@@ -3,10 +3,12 @@
 
 const canvas = document.getElementById('WelcomeCanvas');
 const ctx = canvas.getContext('2d');
+
+// TODO might need this to change when resize browser window
 const bound_rect = canvas.getBoundingClientRect();
 canvas.width = window.innerWidth - bound_rect.x;
-canvas.height = window.innerHeight - bound_rect.y;
-
+canvas.height = window.innerHeight - bound_rect.y;   // TODO might want size to be a little less then flush to bottom
+// canvas.b
 
 let particleArray = [];
 const def_size = 3; // default circle size
@@ -21,21 +23,84 @@ const mouse = {
     radius: sense_dist //particle react area
 }
 
-window.addEventListener('mousemove', function (event) {
-    // shift by canvas position x and y, dont use aboslute location
-    mouse.x = event.x - bound_rect.x + window.pageXOffset;
-    mouse.y = event.y - bound_rect.y + window.pageYOffset;
-    // console.log(mouse.x, mouse.y);
-});
+// window.addEventListener('mousemove', function (event) {
+//     // shift by canvas position x and y, dont use aboslute location
+//     mouse.x = event.x - bound_rect.x + window.pageXOffset;
+//     mouse.y = event.y - bound_rect.y + window.pageYOffset;
+//     // TODO bug for when screen size is rescaled
+//     // mouse.x = Math.floor( mouse.x / canvas.width * 100);
+//     // mouse.y = Math.floor( mouse.y / canvas.width * 100);
+//     // console.log(mouse.x, mouse.y);
+// });
 
-ctx.fillStyle = 'white';
-ctx.textAlign = "center";
-ctx.font = '30px Verdana';
-ctx.fillText('WELCOME TO', canvas.width/2, canvas.height/2 - 30/2 -5); // message, x coord to start painting, y 
-ctx.font = 'bold 39px Verdana';
-ctx.fillText('WHIPPLE', canvas.width /2, canvas.height/2 + 39/2 +5);
+addEventListener('mousemove', (event) => {
+    var rect = canvas.getBoundingClientRect();
 
-const txt_coord = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    mouse.x = (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+
+    // mouse.x = event.clientX
+    // mouse.y = event.clientY
+})
+
+addEventListener('resize', () => {
+    canvas.width = window.innerWidth - bound_rect.x;
+    canvas.height = window.innerHeight - bound_rect.y;
+
+    // memory leak? idk
+    const txt_coord = DrawText('WELCOME TO', 'WHIPPLE')
+    initParticles();
+})
+
+const txt_coord = DrawText('WELCOME TO', 'WHIPPLE');
+
+/* Draws text based on screen size. I fiddled with values to work for two strings, top string being a little longer than bottom string. (Only if you care about them being close to same length)
+rate of cahgne for font size is based off screen width. width of ~1500 uses font of 30px and 39px. min screen starting at 150 width is 10px and 13px. so every 150 width is 2px to 2.6px increase
+*/
+function DrawText(text_top, text_bottom) {
+    console.log(window.innerHeight + ": inner hight");
+    console.log(window.innerWidth + ": inner width");
+
+    // 10*13 is minimum font size i want
+    let top_font = 10;
+    let bot_font = 13;
+    let min_width = 400;
+
+    if (canvas.width > min_width)
+    {
+        let width_ratio = canvas.width/min_width;
+        let top_ratio = (30-top_font) / (1500 / min_width);
+        let bot_ratio = (39-bot_font) / (1500 / min_width);
+        top_font = width_ratio * top_font; // see function header for these rates
+        bot_font = width_ratio * bot_font;
+    }
+
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    // ctx.textBaseline = 'middle';
+    ctx.textAlign = "center";
+
+    // var x_canv_center = 
+
+    // get var for px sizing   30>
+    ctx.font = top_font + 'px Tahoma';
+    ctx.fillText(text_top, canvas.width / 2, canvas.height / 2 - top_font / 2 - 5); // message, x coord to start painting, y 
+    // get var for px sizing    39>
+    ctx.font = 'bold ' + bot_font + 'px Tahoma';
+    ctx.fillText(text_bottom, canvas.width / 2, canvas.height / 2 + bot_font / 2 + 5);
+    
+    return ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+
+// Just so i only calc this once
+const Rgb_goal = 80;
+const rGb_goal = 162;
+const rgB_goal = 167;
+
+const Rgb_rate = (255 - Rgb_goal) / 20;
+const rGb_rate = (255 - rGb_goal) / 20;
+const rgB_rate = (255 - rgB_goal) / 20;
 
 class Particle {
     constructor(x, y) {
@@ -45,9 +110,13 @@ class Particle {
         this.baseX = this.x;
         this.baseY = this.y;
         this.density = (Math.random() * 30) + 1; //give random weight
+        // I cant tell if the var names are genius or terrible
+        this.Rgb = 255;
+        this.rGb = 255;
+        this.rgB = 255;
     }
     draw() {
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = "rgb(" + this.Rgb + "," + this.rGb + "," + this.rgB + ")";
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.closePath();
@@ -68,8 +137,15 @@ class Particle {
             this.x -= directionX;
             this.y -= directionY;
             this.size = grow_size;
-        }
-        else {
+
+            let pp = 100;
+
+            if (this.Rgb > pp || this.rGb > pp || this.rgB > pp) {
+                this.Rgb -= Rgb_rate;
+                this.rGb -= rGb_rate;
+                this.rgB -= rgB_rate;
+            }
+        } else {
             if (this.x != this.baseX) {
                 let dx = this.x - this.baseX;
                 this.x -= dx / 10; // touch up
@@ -79,6 +155,15 @@ class Particle {
                 this.y -= dy / 10; // touch up
             }
             this.size = def_size;
+            this.Rgb += Rgb_rate / 2;
+            this.rGb += rGb_rate / 2;
+            this.rgB += rgB_rate / 2;
+
+            if (this.Rgb > 255 || this.rGb > 255 || this.rgB > 255) {
+                this.Rgb = 255;
+                this.rGb = 255;
+                this.rgB = 255;
+            }
         }
     }
 }
@@ -110,6 +195,7 @@ function maxCanvasTextSize(canvas2D) {
     return [max_x, max_y];
 }
 
+// TODO verify i still need this
 function minCanvasTextSize(canvas2D) {
     // using canvas obviously makes this a little less protable. not worth fixing tho
     // const txt_coord = canvas2D.getImageData(0, 0, canvas.width, canvas.height);
@@ -146,11 +232,14 @@ function initParticles() {
         for (let x = 0; x < txt_coord.width; x++) {
             // if pixel detected
             if (txt_coord.data[alpha_inc + 3] > 128) {
-                // let positionX = x;
-                // let positionY = y;
-                let px = x * mag - xy_min[0] * mag;
+                // this conversion is to maintain psositive numbers when scaling
+                // not convinved it centers it perfectly
+                /*let px = x * mag - xy_min[0] * mag;
                 let py = y * mag - xy_min[1] * mag;
+
                 particleArray.push(new Particle(px + xy_min[0] / 2, py + xy_min[1] / 2));
+                */
+                particleArray.push(new Particle(x, y));
             }
             alpha_inc += 4;
         }
@@ -163,10 +252,17 @@ function animate() {
         particleArray[i].draw();
         particleArray[i].update();
     }
+    //  TODO delete me : draw centerline
+    ctx.strokeStyle = "#FF0000";
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.stroke();
+
     requestAnimationFrame(animate);
 
-    ctx.strokeStyle = 'red';
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    // ctx.strokeStyle = 'red';
+    // ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
 initParticles();
