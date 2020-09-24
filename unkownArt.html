@@ -1,0 +1,64 @@
+<DOCTYPE html>
+    <html>
+  
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+      <link rel="stylesheet" href="NavBar.css">
+    </head>
+  
+    <body>
+  
+      <!-- popup for mobile view -->
+      <div id="myNav" class="overlay">
+        <a class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+          <a href="index.html">Home</a>
+          <a href="PageList.html">Explore</a>
+          <a href="About.html">About</a>
+        </div>
+      </div>
+  
+      <!-- Navbar for mobile and desktop -->
+      <div class="header">
+        <div class="inner_header">
+          <a href="index.html">
+            <div class="logo_container">
+              <h1>WelcomeTo<span>Whipple</span></h1>
+            </div>
+          </a>
+  
+          <ul class="Navigation">
+            <div class="hide-desktop">
+              <a href="PageList.html">
+                <li>Explore</li>
+              </a>
+              <a href="About.html">
+                <li>Learn More</li>
+              </a>
+            </div>
+  
+            <div class="hide-mobile">
+              <a>
+                <li id="dropdown_nav" onclick="openNav()">&#9660
+                </li>
+              </a>
+  
+            </div>
+          </ul>
+        </div>
+      </div>
+      <!-- Control full page menu for mobile view -->
+      <script src="navbar.js"></script>
+  
+  
+  
+      <div>
+        <!-- add resize event listener in js -->
+        <canvas id="doodle"></canvas>
+      </div>
+      <script src="unkownArt.js"></script>
+
+    </body>
+  
+    </html>
