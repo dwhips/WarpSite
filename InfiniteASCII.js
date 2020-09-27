@@ -1,8 +1,8 @@
 function ExtendLadder(n) {
     for (var i = 0; i < n; ++i) {
-        document.getElementById('monkey').innerHTML += "   ||======||" + PopulateStar() + "\n";
-        document.getElementById('monkey').innerHTML += "   ||      ||" + PopulateStar() + "\n";
-        document.getElementById('monkey').innerHTML += "   ||      ||" + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += "||======||" + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += "||      ||" + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += "||      ||" + PopulateStar() + "\n";
     }
 }
 
@@ -11,9 +11,11 @@ function ExtendLadder(n) {
 
 // Uses perlin noise to generate nice plots of star shapes
 function PopulateStar() {
+    return ""; // TODO delete me and get this working. since i have 2 divs, i feel like maybe
+    // i can have a left right div for the perlin noise stuff
     for (var i = 0; i < 25; i++) {
         if (Math.random() > .95) {
-            return AddStar();
+            // return AddStar();
 
         }
         // something like while (x < width - "    ||=====||")
