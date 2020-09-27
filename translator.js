@@ -2,23 +2,21 @@ var trans_txt = document.getElementById("trans_txt");
 var user_txt = document.getElementById("user_txt");
 var lang = document.getElementById("translator");
 
-var first_click = false;
+var first_click = true;
 
 lang.addEventListener('click', function (event) {
-    UpdateTranslation()
+    UpdateTranslation();
 })
 
 user_txt.addEventListener('click', function (event) {
     console.log(first_click);
-    if (first_click)
-        trans_txt.textContent = Translate(user_txt.value);
-    else 
-    {
-        console.log("should clear");
+    if (first_click) {
         user_txt.textContent = "";
         trans_txt.textContent = ""; // in case they translated the intro text
-        first_click = true;
+        first_click = false;
     }
+    else
+        trans_txt.textContent = Translate(user_txt.value);
 })
 
 function UpdateTranslation() {
