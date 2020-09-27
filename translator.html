@@ -3,73 +3,74 @@
 
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <link rel="stylesheet" href="NavBar.css">
         <link rel="stylesheet" href="translator.css">
     </head>
 
     <body>
-                <!-- popup for mobile view -->
-                <div id="myNav" class="overlay">
-                    <a class="closebtn" onclick="closeNav()">&times;</a>
-                    <div class="overlay-content">
-                        <a href="index.html">Home</a>
-                        <a href="PageList.html">Explore</a>
-                        <a href="About.html">About</a>
+        <!-- popup for mobile view -->
+        <div id="myNav" class="overlay">
+            <a class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="overlay-content">
+                <a href="index.html">Home</a>
+                <a href="PageList.html">Explore</a>
+                <a href="About.html">About</a>
+            </div>
+        </div>
+
+        <!-- Navbar for mobile and desktop -->
+        <div class="header">
+            <div class="inner_header">
+                <a href="index.html">
+                    <div class="logo_container">
+                        <h1>WelcomeTo<span>Whipple</span></h1>
                     </div>
-                </div>
-        
-                <!-- Navbar for mobile and desktop -->
-                <div class="header">
-                    <div class="inner_header">
-                        <a href="index.html">
-                            <div class="logo_container">
-                                <h1>WelcomeTo<span>Whipple</span></h1>
-                            </div>
+                </a>
+
+                <ul class="Navigation">
+                    <div class="hide-desktop">
+                        <a href="PageList.html">
+                            <li>Explore</li>
                         </a>
-        
-                        <ul class="Navigation">
-                            <div class="hide-desktop">
-                                <a href="PageList.html">
-                                    <li>Explore</li>
-                                </a>
-                                <a href="About.html">
-                                    <li>Learn More</li>
-                                </a>
-                            </div>
-        
-                            <div class="hide-mobile">
-                                <a>
-                                    <li id="dropdown_nav" onclick="openNav()">&#9660
-                                    </li>
-                                </a>
-        
-                            </div>
-                        </ul>
+                        <a href="About.html">
+                            <li>Learn More</li>
+                        </a>
                     </div>
-                </div>
-                <!-- Control full page menu for mobile view -->
-                <script src="navbar.js"></script>
+
+                    <div class="hide-mobile">
+                        <a>
+                            <li id="dropdown_nav" onclick="openNav()">&#9660
+                            </li>
+                        </a>
+
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <!-- Control full page menu for mobile view -->
+        <script src="navbar.js"></script>
 
 
-                
+
 
         <div id="selectors">
             <select id="translator">
-            <option value="backwards">Backwards</option>
-            <option value="zalgo">Zalgo</option>
-            <option value="worm">Worm</option>
-            <option value="owo">Owo</option>
-            <!-- <option value="cryllic">Cryllic</option> -->
-        </select>
+                <option value="backwards">Backwards</option>
+                <option value="zalgo">Zalgo</option>
+                <option value="worm">Worm</option>
+                <option value="owo">Owo</option>
+                <!-- <option value="cryllic">Cryllic</option> -->
+            </select>
 
-            <button id="copy_bttn" onclick="copyToClipboard()">Copy</button>
+            <button id="copy_bttn" onclick="copyToClipboard()">Copy Translation</button>
 
             <!-- add font slider -->
         </div>
 
         <div>
-            <textarea id="user_txt" style="resize: none" oninput="UpdateTranslation()"></textarea>
+            <textarea id="user_txt" style="resize: none"
+                oninput="UpdateTranslation()">Enter Text Here To Translate</textarea>
         </div>
 
         <div>
