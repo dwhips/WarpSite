@@ -4,12 +4,12 @@ var lang = document.getElementById("translator");
 
 var first_click = true;
 
-lang.addEventListener('click', function (event) {
-    UpdateTranslation();
-})
-lang.addEventListener('touch', function (event) {
-    UpdateTranslation();
-})
+// lang.addEventListener('click', function (event) {
+//     UpdateTranslation();
+// })
+// lang.addEventListener('touch', function (event) {
+//     UpdateTranslation();
+// })
 
 user_txt.addEventListener('click', function (event) {
     console.log(first_click);
