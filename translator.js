@@ -236,3 +236,5 @@ function copyToClipboard() {
         }
     }
 }
+
+trans_txt.textContent = Translate(user_txt.value);
