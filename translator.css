@@ -6,7 +6,7 @@ body{
     width: 100%;
     height: 40vh;
     padding: 12px 20px;
-    margin: 0;
+    margin: 8px 0;
     box-sizing: border-box;
     font-size: 35px;
 }
@@ -20,17 +20,41 @@ body{
     font-size: 35px;
 }
 
-#translator {
-    max-width: 500px;
-    width: 25%;
-    height: 30px;
+#selectors {
+    /* margin: 0px; */
+    width: 100%;
+    background-color: #50A2A7;
+    /* background-color: black; */
+    display: flex;
+    justify-content: center;
 }
 
-#selectors {
-    margin: 5px auto;
-    width: 100%;
+#translator {
+    /* margin: 0px auto; */
+    /* margin-right: 10px; */
+    max-width: 500px;
+    width: 50%;
+    height: 30px;
+    background: white;
+    border: none;
+}
+
+#spacer {
+    height: 30px;
+    max-width: 30px;
+    width: 10%;
+    background-color: #50A2A7;
+    /* background: black; */
 }
 
 #copy_bttn {
+    /* padding: 0px 10px 0px 10px; */
+    padding-left: 10px;
+    padding-right: 10px;
+    /* margin: 0px auto; */
     height: 30px;
+    background: white;
+    border: none;
+    /* border: line;
+    border-color: black; */
 }
