@@ -52,7 +52,7 @@ addEventListener('mousemove', (event) => {
 
         mouse.x = (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
         mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
-        VerifyZipPos(mouse.x);
+        // VerifyZipPos(mouse.x);
     }
 })
 
@@ -98,7 +98,7 @@ function DrawZipTeeth(nZips, hash_height) {
     }
 }
 
-// TODO with no angle or x pos
+
 function DrawZipSlider(x_pos) {
     x_pos -= zip.width / 2;
     c.fillStyle = "white";
@@ -110,7 +110,7 @@ function DrawZipSlider(x_pos) {
     c.rotate(-zip.slider_angle);// * Math.PI/180);
     c.translate(-zip.x_pos, -y_mid)
 
-    var coord = CordFromAngle(zip.slider_angle + 90 * Math.PI / 180, zip.height-6, zip.x_pos, y_mid)
+    var coord = CordFromAngle(zip.slider_angle + 90 * Math.PI / 180, zip.height - 6, zip.x_pos, y_mid)
     // const x_circle_center = x_pos + zip.width / 2; // will change with angle stuff
     // const y_circle_center = y_mid + zip.width * 3 + 3;
     c.beginPath();
@@ -118,42 +118,56 @@ function DrawZipSlider(x_pos) {
     c.stroke();
 }
 
-// will need to account for the angle
+// Checks if mouse position is clicking on zipper
 function TouchingSlider() {
-    if ((mouse.x >= zip.x_pos - zip.width / 2) && (mouse.x <= zip.x_pos + zip.width / 2)) {
-        // currently zipper height harcoded
-        if ((mouse.y >= y_mid) && (mouse.y <= y_mid + zip.height)) {
-            // console.log(mouse.x + " , " + mouse.y);
-            zip.draggable = true;
-        }
-    }
-    // zip.draggable = false;
+    // draw invisible path around zipper
+    var x_pos = zip.x_pos - zip.width / 2;
+    c.fillStyle = "transparent";
+
+    c.translate(zip.x_pos, y_mid)
+    c.rotate(zip.slider_angle);
+    c.beginPath();
+    c.rect(-zip.width / 2, 0, zip.width, zip.width * 4); // 4 instead of 3 to account for circle
+    c.rotate(-zip.slider_angle);
+    c.translate(-zip.x_pos, -y_mid)
+
+    if (c.isPointInPath(mouse.x, mouse.y))
+        zip.draggable = true;
+
+    c.stroke; // not sure if needed, but might mess up future iterations without
 }
 
-// makes sure the slidder doesnt extend beyond zipper bounds
-function VerifyZipPos(x) {
+// makes sure the slidder doesnt extend beyond zipper bounds and calculates angles for stuff
+function VerifyZipPos() {
     // for left bound      TODO need a little spice now angle is added
-    zip.slider_angle = Angle2Mouse(zip.x_pos, y_mid) + 90 * Math.PI / 180;
-    if (x < zip.min_x - zip.height) {
-        zip.x_pos = zip.min_x;
-    }
-    // for right bound
-    else if (x > zip.max_x + zip.height) {
-        zip.x_pos = zip.max_x;
-    }
-    // within moving angle of slider but not moving it
-    else if (Math.abs(mouse.x - zip.x_pos) <= zip.height) {
-        // and 90* cos i have zipper down not pointing right, so relative angle should be 90* not 0*
-        // zip.slider_angle = Angle2Mouse(zip.x_pos, y_mid) + 90 * Math.PI / 180;
-    }
-    else {
-        // zip.slider_angle = Angle2Mouse(zip.x_pos, y_mid) + 90 * Math.PI / 180;
-        if (mouse.x < zip.x_pos) {
-            zip.x_pos = mouse.x + zip.height;
+    if (zip.draggable) {
+        console.log('mod position');
+        const x = mouse.x;
+        zip.slider_angle = Angle2Mouse(zip.x_pos, y_mid) + 90 * Math.PI / 180;
+        if (x < zip.min_x - zip.height) {
+            zip.x_pos = zip.min_x;
+        }
+        // for right bound
+        else if (x > zip.max_x + zip.height) {
+            zip.x_pos = zip.max_x;
+        }
+        // within moving angle of slider but not moving it
+        else if (Math.abs(mouse.x - zip.x_pos) <= zip.height) {
+            // and 90* cos i have zipper down not pointing right, so relative angle should be 90* not 0*
+            // zip.slider_angle = Angle2Mouse(zip.x_pos, y_mid) + 90 * Math.PI / 180;
         }
         else {
-            zip.x_pos = mouse.x - zip.height;
+            // zip.slider_angle = Angle2Mouse(zip.x_pos, y_mid) + 90 * Math.PI / 180;
+            if (mouse.x < zip.x_pos) {
+                zip.x_pos = mouse.x + zip.height;
+            }
+            else {
+                zip.x_pos = mouse.x - zip.height;
+            }
         }
+    }
+    else {
+        // Pendulum();
     }
 }
 
@@ -173,6 +187,35 @@ function CordFromAngle(ang, dist, x1, y1) {
     return [x, y];
 }
 
+// its gotta be written in a way that it isnt running when user clicks
+
+// // im using pseudo gravity, lets see if it looks good
+// function Pendulum()
+// {
+//     var add_sub = 1;
+//     var new_coord;
+//     var x2;
+//     var angle_shift;
+//     for(var i_fall = 0; i_fall < 4; i_fall++)
+//     {
+//         x2 = 1.1;
+//         // if i did reall gravity i could account for frame count but why
+//         for(i_step = 0; i_step < 100; i_step++)
+//         {
+//             x2 *= x2;
+//             if(i_fall%2 == 1)
+//             {
+//                 add_sub *= -1;
+//             }
+
+//             angle_shift =  add_sub*x2 /10;
+
+//             new_coord = CordFromAngle(zip.slider_angle+angle_shift * Math.PI / 180, zip.height, zip.x_pos, y_mid);
+
+//         }
+//     }
+// }
+
 function animate() {
     // console.log(zip.draggable);
     c.fillStyle = 'black'
@@ -180,11 +223,9 @@ function animate() {
     c.fillStyle = "white";
 
     initZipper();
+    VerifyZipPos();
     // DrawZipSlider(zip.x_pos);
-
     requestAnimationFrame(animate);
 }
 
-
-initZipper();
 animate();
