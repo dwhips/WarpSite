@@ -32,12 +32,12 @@ canvas.ontouchstart = function (event) {
     mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 }
 
-// canvas.ontouchmove = function (event) {
-//     event.preventDefault();
-//     var rect = canvas.getBoundingClientRect();
-//     mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
-//     mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
-// }
+canvas.ontouchmove = function (event) {
+    event.preventDefault();
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+}
 
 addEventListener('resize', () => {
     var rect = canvas.getBoundingClientRect();
