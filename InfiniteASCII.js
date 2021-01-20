@@ -1,8 +1,8 @@
 function ExtendLadder(n) {
     for (var i = 0; i < n; ++i) {
-        document.getElementById('monkey').innerHTML += "||======||" + PopulateStar() + "\n";
-        document.getElementById('monkey').innerHTML += "||      ||" + PopulateStar() + "\n";
-        document.getElementById('monkey').innerHTML += "||      ||" + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += " ||======|| " + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += " ||      || " + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += " ||      || " + PopulateStar() + "\n";
     }
 }
 
@@ -51,6 +51,9 @@ window.onscroll = function(ev) {
 
     }
 };
+
+ExtendLadder(25);
+
 // // Add a check for if the page is too zoomed out at the start
 // function CheckSmallPage() {
 //     var i = 0;
