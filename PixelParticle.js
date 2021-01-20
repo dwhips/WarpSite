@@ -14,8 +14,21 @@ let particleArray = [];
 const def_size = 3; // default circle size
 const grow_size = 5; // size of circle within range
 const sense_dist = 125 * (canvas.width / 1500); // range of mouse
-console.log("sense dist: "+sense_dist);
+console.log("sense dist: " + sense_dist);
 mag = 5; // magnify condensed font to pixel
+
+const Rgb_goal = 80;
+const rGb_goal = 162;
+const rgB_goal = 167;
+
+const Rgb_rate = (255 - Rgb_goal) / 20;
+const rGb_rate = (255 - rGb_goal) / 20;
+const rgB_rate = (255 - rgB_goal) / 20;
+
+txt_coord = DrawText('WELCOME TO', 'WHIPPLE');
+
+var rect
+let reset_bool = false
 
 // handle mouse
 const mouse = {
@@ -27,21 +40,22 @@ const mouse = {
 // Mouse move for mobile
 canvas.ontouchstart = function (event) {
     event.preventDefault();
-    var rect = canvas.getBoundingClientRect();
+    rect = canvas.getBoundingClientRect();
     mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
     mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 }
 
+// TODO speed improvement, have isMobile to prevent on move
 canvas.ontouchmove = function (event) {
     event.preventDefault();
-    var rect = canvas.getBoundingClientRect();
+    rect = canvas.getBoundingClientRect();
     mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
     mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 }
 
 // Mouse move for desktop
 addEventListener('mousemove', (event) => {
-    var rect = canvas.getBoundingClientRect();
+    rect = canvas.getBoundingClientRect();
 
     mouse.x = (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
     mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
@@ -51,18 +65,13 @@ addEventListener('mousemove', (event) => {
 })
 
 addEventListener('resize', () => {
-    canvas.width = window.innerWidth - bound_rect.x;
-    canvas.height = window.innerHeight - bound_rect.y;
-
-    // memory leak? idk
-    const txt_coord = DrawText('WELCOME TO', 'WHIPPLE')
-    initParticles();
+    //reset_bool = true
 })
 
-const txt_coord = DrawText('WELCOME TO', 'WHIPPLE');
+
 
 /* Draws text based on screen size. I fiddled with values to work for two strings, top string being a little longer than bottom string. (Only if you care about them being close to same length)
-rate of cahgne for font size is based off screen width. width of ~1500 uses font of 30px and 39px. min screen starting at 150 width is 10px and 13px. so every 150 width is 2px to 2.6px increase
+rate of change for font size is based off screen width. width of ~1500 uses font of 30px and 39px. min screen starting at 150 width is 10px and 13px. so every 150 width is 2px to 2.6px increase
 */
 function DrawText(text_top, text_bottom) {
     console.log(window.innerHeight + ": inner hight");
@@ -75,8 +84,8 @@ function DrawText(text_top, text_bottom) {
 
     if (canvas.width > min_width) {
         let width_ratio = canvas.width / min_width;
-        let top_ratio = (30 - top_font) / (1500 / min_width);
-        let bot_ratio = (39 - bot_font) / (1500 / min_width);
+        // let top_ratio = (30 - top_font) / (1500 / min_width);
+        // let bot_ratio = (39 - bot_font) / (1500 / min_width);
         top_font = width_ratio * top_font; // see function header for these rates
         bot_font = width_ratio * bot_font;
     }
@@ -86,8 +95,7 @@ function DrawText(text_top, text_bottom) {
     // ctx.textBaseline = 'middle';
     ctx.textAlign = "center";
 
-    // var x_canv_center = 
-
+    // TODO have shift if window width < height. make mobile size thicker
     // get var for px sizing   30>
     ctx.font = top_font + 'px Tahoma';
     ctx.fillText(text_top, canvas.width / 2, canvas.height / 2 - top_font / 2 - 5); // message, x coord to start painting, y 
@@ -98,20 +106,12 @@ function DrawText(text_top, text_bottom) {
     return ctx.getImageData(0, 0, canvas.width, canvas.height);
 }
 
-
-// Just so i only calc this once
-const Rgb_goal = 80;
-const rGb_goal = 162;
-const rgB_goal = 167;
-
-const Rgb_rate = (255 - Rgb_goal) / 20;
-const rGb_rate = (255 - rGb_goal) / 20;
-const rgB_rate = (255 - rgB_goal) / 20;
-
 class Particle {
-    constructor(x, y) {
+    constructor(x, y, ix, iy) {
         this.x = x;
         this.y = y;
+        this.ix = ix
+        this.iy = iy
         this.size = def_size;
         this.baseX = this.x;
         this.baseY = this.y;
@@ -120,6 +120,15 @@ class Particle {
         this.Rgb = 255;
         this.rGb = 255;
         this.rgB = 255;
+    }
+    reset() {
+        let center_width = canvas.width / 2;
+                let center_height = canvas.height / 2;
+                let x_diff = center_width - this.ix;
+                let y_diff = center_height - this.iy;
+                this.x = center_width - x_diff * mag;
+                this.y = center_height - y_diff * mag;
+
     }
     draw() {
         ctx.fillStyle = "rgb(" + this.Rgb + "," + this.rGb + "," + this.rgB + ")";
@@ -174,35 +183,37 @@ class Particle {
     }
 }
 
-// shows the bounds of a canvas croped as rect around text. 
-// top left is always [0 0] and bottom right is cropped to fit all detected text
-function maxCanvasTextSize(canvas2D) {
-    // const txt_coord = canvas2D.getImageData(0, 0, canvas.width, canvas.height);
+// // shows the bounds of a canvas croped as rect around text. 
+// // top left is always [0 0] and bottom right is cropped to fit all detected text
+// function maxCanvasTextSize(canvas2D) {
+//     // const txt_coord = canvas2D.getImageData(0, 0, canvas.width, canvas.height);
 
-    let max_x = 0;
-    let max_y = 0;
-    // canvas is transparent so only text is color based in txt_coord
+//     let max_x = 0;
+//     let max_y = 0;
+//     // canvas is transparent so only text is color based in txt_coord
 
-    let alpha_inc = 0;
-    for (let y = 0, y2 = txt_coord.height; y < y2; y++) {
-        for (let x = 0, x2 = txt_coord.width; x < x2; x++) {
-            if (txt_coord.data[alpha_inc + 3] > 128) {
+//     let alpha_inc = 0;
+//     for (let y = 0, y2 = txt_coord.height; y < y2; y++) {
+//         for (let x = 0, x2 = txt_coord.width; x < x2; x++) {
+//             if (txt_coord.data[alpha_inc + 3] > 128) {
 
-                if (x > max_x) {
-                    max_x = x;
-                }
-                if (y > max_y) {
-                    max_y = y;
-                }
-            }
-            alpha_inc += 4;
-        }
-    }
-    return [max_x, max_y];
-}
+//                 if (x > max_x) {
+//                     max_x = x;
+//                 }
+//                 if (y > max_y) {
+//                     max_y = y;
+//                 }
+//             }
+//             alpha_inc += 4;
+//         }
+//     }
+//     return [max_x, max_y];
+// }
 
-function initParticles() {
-    particleArray = [];
+// init pixel position and add particle obj if push_particles = true
+function initParticles(push_particles) {
+    if (push_particles) particleArray = [];
+
     // canvas is transparent so only text is color based in txt_coord
     let alpha_inc = 0;
     for (let y = 0; y < txt_coord.height; y++) {
@@ -218,7 +229,7 @@ function initParticles() {
                 let px = center_width - x_diff * mag;
                 let py = center_height - y_diff * mag;
 
-                particleArray.push(new Particle(px, py));
+                if (push_particles) particleArray.push(new Particle(px, py, x, y));
             }
             alpha_inc += 4;
         }
@@ -229,14 +240,40 @@ function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < particleArray.length; i++) {
         particleArray[i].draw();
-        particleArray[i].update();
+        particleArray[i].update();            
     }
+    // if(!reset_bool){
+    //     for (let i = 0; i < particleArray.length; i++) {
+    //         particleArray[i].draw();
+    //         particleArray[i].update();
+            
+    //     }
+    // }else{
+    //     for (let i = 0; i < particleArray.length; i++) {
+    //         canvas.width = window.innerWidth - bound_rect.x;
+    //         canvas.height = window.innerHeight - bound_rect.y;
+
+    //         console.log("Resize" + canvas.height + canvas.width)
+
+    //         particleArray[i].reset();
+    //         particleArray[i].draw();
+    //         particleArray[i].update();
+            
+    //         txt_coord = DrawText('WELCOME TO', 'WHIPPLE')
+    //         initParticles(false); //TODO new delete
+
+    //         reset_bool = false
+    //     }
+    // }
+    
+    
 
     requestAnimationFrame(animate);
 
-    // ctx.strokeStyle = 'red';
-    // ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    //comment me
+    //ctx.strokeStyle = 'red';
+    //ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
-initParticles();
+initParticles(true);
 animate();
