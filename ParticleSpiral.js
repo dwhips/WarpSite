@@ -7,7 +7,7 @@ const c = canvas.getContext('2d');
 
 // canvas.width = innerWidth;
 // canvas.height = innerHeight;
-
+var rect = canvas.getBoundingClientRect();
 
 const mouse = {
     x: innerWidth / 2,
@@ -18,7 +18,7 @@ const mouse = {
 // function isMobile() { return ('ontouchstart' in document.documentElement); }
 
 addEventListener('mousemove', (event) => {
-    var rect = canvas.getBoundingClientRect();
+    rect = canvas.getBoundingClientRect();
 
     mouse.x = (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
     mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
@@ -27,20 +27,20 @@ addEventListener('mousemove', (event) => {
 // Mouse move for mobile
 canvas.ontouchstart = function (event) {
     event.preventDefault();
-    var rect = canvas.getBoundingClientRect();
+    rect = canvas.getBoundingClientRect();
     mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
     mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 }
 
 canvas.ontouchmove = function (event) {
     event.preventDefault();
-    var rect = canvas.getBoundingClientRect();
+    rect = canvas.getBoundingClientRect();
     mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
     mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 }
 
 addEventListener('resize', () => {
-    var rect = canvas.getBoundingClientRect();
+    rect = canvas.getBoundingClientRect();
     canvas.width = window.innerWidth - rect.x;
     canvas.height = window.innerHeight - rect.y;
     init()
@@ -101,12 +101,12 @@ function generateRing() {
                 new Particle(x, y, 5, `hsl(${Math.abs(hue * 360)}, 50%, 50%)`, {
                     x: Math.cos(radian * i) * 3,
                     y: Math.sin(radian * i) * 3
-                })
+                }
+                )
             )
         }
     // }
     hueRadians += 0.01
-
 }
 
 // Animation Loop
@@ -114,10 +114,9 @@ function animate() {
     requestAnimationFrame(animate)
     c.fillStyle = 'rgba(0, 0, 0, 0.1)'
     c.fillRect(0, 0, canvas.width, canvas.height)
-    let rad = 5*2; // hardcode i know
 
     particles.forEach((particle, i) => {
-
+        // Kill particle if offscreen
         if (particle.x < -1*canvas.width*.1 || particle.x > canvas.width*1.1) {
             particles.splice(i, 1)
         }
