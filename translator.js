@@ -1,4 +1,4 @@
-var trans_txt = document.getElementById("trans_txt");
+var trans_txt = document.getElementById("trans_txt"); // translated text
 var user_txt = document.getElementById("user_txt");
 var lang = document.getElementById("translator");
 
@@ -14,19 +14,19 @@ var first_click = true;
 user_txt.addEventListener('click', function (event) {
     console.log(first_click);
     if (first_click) {
-        user_txt.textContent = "";
-        trans_txt.textContent = ""; // in case they translated the intro text
+        user_txt.innerHTML  = "";
+        trans_txt.innerHTML  = ""; // in case they translated the intro text
         first_click = false;
     }
     else
-        trans_txt.textContent = Translate(user_txt.value);
+        trans_txt.innerHTML  = Translate(user_txt.value);
 })
 
 function UpdateTranslation() {
     // console.log("Update Triggered");
     // console.log(user_txt.value);
     // console.log(lang.value);
-    trans_txt.textContent = Translate(user_txt.value);
+    trans_txt.innerHTML  = Translate(user_txt.value);
 }
 
 function Translate(txt) {
@@ -209,12 +209,11 @@ function Crillify(txt) {
         ">": ">",
         "?": "？"
     }
-    return txt.sup();
-    return txt.replace(/[a-z]/g, m => VaporMap[m]);
+    return txt.replace(/[a-z]/gi, m => VaporMap[m]);
 }
 
 function copyToClipboard() {
-    var text = trans_txt.textContent;
+    var text = trans_txt.innerHTML ;
 
     if (window.clipboardData && window.clipboardData.setData) {
         // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
@@ -222,7 +221,7 @@ function copyToClipboard() {
 
     } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
         var textarea = document.createElement("textarea");
-        textarea.textContent = text;
+        textarea.innerHTML  = text;
         textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in Microsoft Edge.
         document.body.appendChild(textarea);
         textarea.select();
@@ -237,4 +236,4 @@ function copyToClipboard() {
     }
 }
 
-trans_txt.textContent = Translate(user_txt.value);
+trans_txt.innerHTML  = Translate(user_txt.value);
