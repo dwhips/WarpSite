@@ -35,18 +35,23 @@ function Translate(txt) {
             // console.log("In Backwards");
             return Reverse(txt);
             break;
+
         case 'zalgo':
             return Zalgofy(txt);
             break;
+
         case 'worm':
             return Wormify(txt);
             break;
+
         case 'owo':
             return Owoify(txt);
             break;
+
         case 'cryllic':
             return Crillify(txt);
             break;
+            
         default:
             console.log("Check the lang.value is properly typed in the html or called in this script. given val: ", lang.value);
     }
