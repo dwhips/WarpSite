@@ -1,0 +1,37 @@
+<DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <Title>Color Converter/Pallete Generator</Title>
+
+        <link rel="stylesheet" href="NavBar.css">
+        <link rel="stylesheet" href="format.css">
+    </head>
+
+    <body style="background-color: black;">
+        <!-- Control full page menu for mobile view -->
+        <script src="navbar.js"></script>
+        <link rel="icon" type="image/x-icon" href="/Art/WhippleLogo.png">
+
+        <div>
+            <canvas id="MainColorCanvas" style="width:100%;height: 50%;"></canvas>
+            <div style="display: inline;">
+                <select name="colorConversionType" id="colorConversionType" onchange="SetConversionType()">
+                    <!-- SetConversionType(this) -->
+                    <option value="RGB"></option>
+                    <option value="Hex"></option>
+                </select>
+                <input type="text" id="color1" name="color1" placeholder="R">
+                <input type="text" id="color2" name="color2" placeholder="G">
+                <input type="text" id="color3" name="color3" placeholder="B">
+                <button onclick="CheckInputs()">Set Color</button>
+            </div>
+        </div>
+    
+        <!-- Have pallatte generator be below. Scroll down, each row has a color within a pallette which can be scrolled horizontally -->
+        <script src="ColorGen.js"></script>
+    </body>
+
+    </html>
