@@ -17,21 +17,33 @@
 
         <div>
             <canvas id="MainColorCanvas" style="width:100%;height: 50%;"></canvas>
-            <div style="display: inline;">
+            <div style="display: block;">
                 <select name="colorConversionType" id="colorConversionType" onchange="SetConversionType()">
                     <!-- SetConversionType(this) -->
-                    <option value="RGB"></option>
-                    <option value="Hex"></option>
+                    <option value="RGB">RGB</option>
+                    <option value="Hex">Hex</option>
                 </select>
-                <input type="text" id="color1" name="color1" placeholder="R">
-                <input type="text" id="color2" name="color2" placeholder="G">
-                <input type="text" id="color3" name="color3" placeholder="B">
-                <button onclick="CheckInputs()">Set Color</button>
+                <div id="color1cell">
+                    <input type="number" onchange="SyncFromColori()" id="color1" name="color1" placeholder="R">
+                    <input type="range" onchange="SyncFromSlider()" min="0" max="255" id="color1slider">
+                </div>
+
+                <div id="color2cell">
+                    <input type="number" onchange="SyncFromColori()" id="color2" name="color2" placeholder="G">
+                    <input type="range" onchange="SyncFromSlider()" min="0" max="255" id="color2slider">
+                </div>
+
+                <div id="color3cell">
+                    <input type="number" onchange="SyncFromColori()" id="color3" name="color3" placeholder="B">
+                    <input type="range" onchange="SyncFromSlider()" min="0" max="255" id="color3slider">
+                </div>
+                
+                <button onclick="updateColor()">Set Color</button>
             </div>
         </div>
     
         <!-- Have pallatte generator be below. Scroll down, each row has a color within a pallette which can be scrolled horizontally -->
-        <script src="ColorGen.js"></script>
+        <script src="ColorGen.js" defer></script>
     </body>
 
     </html>
