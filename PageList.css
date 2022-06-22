@@ -1,0 +1,68 @@
+@media(min-width:1500px){
+    .list-container a{
+        min-width: 25%;
+    }
+}
+
+@media(max-width:1500px){
+    .list-container a{
+        min-width: 33%;
+    }
+}
+
+@media(max-width:750px){
+    .list-container{
+        flex-direction: column;
+    }
+}
+
+
+
+.list-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-between;
+
+    width: 100%;
+    /* border: solid red; */
+}
+
+.list-container a{
+    flex: 1;
+
+    /* background-color: black; */
+    background: rgb(80, 162, 167);
+    /* Fallback for older browsers without RGBA-support */
+    background: rgba(80, 162, 167, 0.5);
+
+    box-sizing: border-box;
+    border: 2px black solid;
+
+    /*flex-basis: auto;*/
+    /*width:25%;*/
+
+    
+    /* min-width: 25%; */
+    min-height: 100px;
+}
+
+/* Honestly dont knwo why it is bouncing */
+.list-container a:hover {
+    opacity: .8;
+    border: 2px white solid;
+}
+
+.list-element h3{
+    color: whitesmoke;
+    font-family: 'Montserrat';
+    font-size: 30px;
+}
+
+.list-element p{
+    /* color: whitesmoke; */
+    color:whitesmoke;
+    font-family: 'Montserrat';
+    font-size: 20px;
+    margin: 10;
+}
+
