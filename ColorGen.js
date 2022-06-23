@@ -16,6 +16,7 @@ function InitColors(){
     color2slider.value = 125;
     color3slider.value = 125;
 
+    SetRandomRGB()
     SyncFromColori();
 }
 
@@ -97,4 +98,11 @@ function updateColor()
     ctx.fillStyle = GetColorFillStyle("");
 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function SetRandomRGB()
+{
+    color1.value = Math.floor(Math.random() * 255);
+    color2.value = Math.floor(Math.random() * 255);
+    color3.value = Math.floor(Math.random() * 255);
 }
