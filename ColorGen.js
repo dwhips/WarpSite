@@ -4,7 +4,6 @@ var color1, color2, color3;
 
 var color1 = document.getElementById("color1"), color2 = document.getElementById("color2"), color3 = document.getElementById("color3");
 var color1slider = document.getElementById("color1slider"), color2slider = document.getElementById("color2slider"), color3slider = document.getElementById("color3slider");
-var colorAlpha = document.getElementById("colorAlpha"), colorAlphaSlider = document.getElementById("colorAlphaSlider");
 var hex = document.getElementById("hex");
 var rgbLabel = document.getElementById("rgbLabel");
 
@@ -18,8 +17,6 @@ function InitColors(){
     color2slider.value = 125;
     color3slider.value = 125;
 
-    colorAlpha.value = 1;
-
     rgbLabel.value = GetColorFillStyle("RGB");
 
     SetRandomRGB()
@@ -32,7 +29,6 @@ function SyncFromColori()
     color1slider.value = color1.value;
     color2slider.value = color2.value;
     color3slider.value = color3.value;
-    colorAlphaSlider.value = colorAlpha.value;
 
     hex.value = GetColorFillStyle("Hex");
 
@@ -43,11 +39,9 @@ function SyncFromColori()
 
 function SyncFromSlider()
 {
-    console.log("alpha from slider: " + colorAlphaSlider.value);
     color1.value = color1slider.value;
     color2.value = color2slider.value;
     color3.value = color3slider.value;
-    colorAlpha.value = colorAlphaSlider.value;
 
     hex.value = GetColorFillStyle("Hex");
 
@@ -77,7 +71,7 @@ function GetColorFillStyle(colorType)
     switch(colorType){
         case "RGB":
         case "":
-            return "rgba("+ color1.value + "," + color2.value + "," + color3.value + "," + colorAlpha.value + ")";
+            return "rgb("+ color1.value + "," + color2.value + "," + color3.value + ")";
 
         case "Hex":
             let r = parseInt(color1.value);
@@ -107,8 +101,7 @@ function SetRGB(colorType, colorValue)
             color1.value = parseInt(r, 16);
             color2.value = parseInt(g, 16);
             color3.value = parseInt(b, 16);
-
-            colorAlpha.value = 1.0;
+            
         break;
 
         case "rgb":
@@ -144,7 +137,7 @@ function updateColor()
 
     var canvasTest = document.getElementById("test");
     var ctxTest = canvasTest.getContext("2d");
-    ctxTest.fillStyle = "rgba(" + color1.value + "," + color2.value + "," + color3.value + "," + colorAlpha.value + ")";
+    ctxTest.fillStyle = "rgb(" + color1.value + "," + color2.value + "," + color3.value + ")";
     ctxTest.fillRect(0,0,canvasTest.width,canvasTest.height);
 }
 
@@ -153,5 +146,4 @@ function SetRandomRGB()
     color1.value = Math.floor(Math.random() * 255);
     color2.value = Math.floor(Math.random() * 255);
     color3.value = Math.floor(Math.random() * 255);
-    colorAlpha.value = 1.0;
 }

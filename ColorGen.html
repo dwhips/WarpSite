@@ -17,12 +17,7 @@
 
         <div style="background-color: white;">
             <canvas id="MainColorCanvas" style="width:100%;height: 50%;"></canvas>
-            <div style="display: block;" >
-                <!-- <select name="colorConversionType" id="colorConversionType" onchange="SetConversionType()">
-                    <option value="RGB">RGB</option>
-                    <option value="Hex">Hex</option>
-                </select> -->
-                
+            <div style="display: block;" >                
                 <input type="text" onchange="SyncFromLabel()" id="rgbLabel">
 
                 <div id="color1cell">
@@ -38,11 +33,6 @@
                 <div id="color3cell">
                     <input type="number" onchange="SyncFromColori()" id="color3" name="color3" placeholder="B">
                     <input type="range" onchange="SyncFromSlider()" min="0" max="255" id="color3slider">
-                </div>
-
-                <div id="color4cell">
-                    <input type="number" onchange="SyncFromColori()" id="colorAlpha" name="colorAlpha" min="0.0" max="1.0" step="0.01" placeholder="A">
-                    <input type="range" onchange="SyncFromSlider()" min="0.0" max="1.0" value="1" step="0.01" id="colorAlphaSlider">
                 </div>
 
                 <div id="HexCell">
