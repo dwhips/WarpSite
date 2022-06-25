@@ -7,62 +7,103 @@ var color1slider = document.getElementById("color1slider"), color2slider = docum
 var hex = document.getElementById("hex");
 var rgbLabel = document.getElementById("rgbLabel");
 
+var hInput = document.getElementById("hInput"), sInput = document.getElementById("sInput"), lInput = document.getElementById("lInput");
+var hSlider = document.getElementById("hSlider"), sSlider = document.getElementById("sSlider"), lSlider = document.getElementById("lSlider");
+
 InitColors();
 
 function InitColors(){
-    color1.value = 125;
-    color2.value = 125;
-    color3.value = 125;
-    color1slider.value = 125;
-    color2slider.value = 125;
-    color3slider.value = 125;
+    // color1.value = 125;
+    // color2.value = 125;
+    // color3.value = 125;
+    // color1slider.value = 125;
+    // color2slider.value = 125;
+    // color3slider.value = 125;
 
     rgbLabel.value = GetColorFillStyle("RGB");
 
     SetRandomRGB()
-    SyncFromColori();
+    // SetHSL(color1.value, color2.value, color3.value);
+    SyncFromRGBInput();
 }
 
-function SyncFromColori()
+function SyncFromRGBInput()
 {
     // Number between 0 - 255
-    color1slider.value = color1.value;
-    color2slider.value = color2.value;
-    color3slider.value = color3.value;
+    // color1slider.value = color1.value;
+    // color2slider.value = color2.value;
+    // color3slider.value = color3.value;
 
-    hex.value = GetColorFillStyle("Hex");
+    // SetHSL(color1.value, color2.value, color3.value);
 
-    rgbLabel.value = GetColorFillStyle("RGB");
+    // hex.value = GetColorFillStyle("Hex");
 
-    updateColor();
+    // rgbLabel.value = GetColorFillStyle("RGB");
+
+    updateColor("rgb", color1.value + "," + color2.value + "," + color3);
 }
 
-function SyncFromSlider()
+function SyncFromRGBSlider()
 {
-    color1.value = color1slider.value;
-    color2.value = color2slider.value;
-    color3.value = color3slider.value;
+    // color1.value = color1slider.value;
+    // color2.value = color2slider.value;
+    // color3.value = color3slider.value;
 
-    hex.value = GetColorFillStyle("Hex");
+    // SetHSL(color1.value, color2.value, color3.value);
 
-    rgbLabel.value = GetColorFillStyle("RGB");
+    // hex.value = GetColorFillStyle("Hex");
 
-    updateColor();
+    // rgbLabel.value = GetColorFillStyle("RGB");
+
+    updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
 }
 
+function SyncFromHSLInput()
+{
+    // hSlider.value = hInput.value;
+    // sSlider.value = sInput.value;
+    // lSlider.value = lInput.value;
+
+    // SetRGB("hsl", hInput.value + "," + sInput.value + "," + lInput.value);
+
+    // hex.value = GetColorFillStyle("Hex");
+
+    // rgbLabel.value = GetColorFillStyle("RGB");
+
+    updateColor("hsl", hInput.value + "," + sInput.value + "," + lSlider.value);
+}
+
+function SyncFromHSLSlider()
+{
+    // hInput.value = hSlider.value;
+    // sInput.value = sSlider.value;
+    // lInput.value = lSlider.value;
+
+    // SetRGB("hsl", hInput.value + "," + sInput.value + "," + lInput.value);
+
+    // hex.value = GetColorFillStyle("Hex");
+
+    // rgbLabel.value = GetColorFillStyle("RGB");
+
+    updateColor("hsl", hSlider.value + "," + sSlider.value + "," + lSlider.value);
+}
+
+// TODO update label function
 function SyncFromHex()
 {
     console.log("Hex from sync: " + hex.value);
 
+    //TODO dont use setrgb
     SetRGB("Hex", hex.value);
-    updateColor();
+    updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
 }
 
 function SyncFromLabel(){
 
+    //TODO dont use SetRGB to use update color
     console.log("rgb label from sync: " + rgbLabel.value);
     SetRGB("rgb", rgbLabel.value);
-    updateColor();
+    updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
 }
 
 // Get fill style text of each color type
@@ -79,6 +120,9 @@ function GetColorFillStyle(colorType)
             let b = parseInt(color3.value);
 
             return "#" + r.toString(16) + g.toString(16) + b.toString(16);
+
+        case "HSL":
+            return "hsl(" + hInput.value + "," + sInput.value + "%," + lInput.value + "%)";  
 
         default:
             console.error("GetColorFillStyle Color type not recognized: " + colorType);
@@ -118,17 +162,134 @@ function SetRGB(colorType, colorValue)
             color1.value = tempArr[0].trim();
             color2.value = tempArr[1].trim();
             color3.value = tempArr[2].trim();
+            break;
 
+        case "hsl":
+            console.log(colorValue);
+            tempArr = colorValue.split(",");
+            tempArr = hsl2rgb(tempArr[0],tempArr[1],tempArr[2]);
+            console.log("temp arr: " + tempArr);
+            // assuming r g b are provided
+            color1.value = Math.floor(tempArr[0]);
+            color2.value = Math.floor(tempArr[1]);
+            color3.value = Math.floor(tempArr[2]);
         break;
 
         default:
             console.error("SetRGB Color type not recognized: " + colorType);
     }
+    color1slider.value = color1.value;
+    color2slider.value = color2.value;
+    color3slider.value = color3.value;
 }
 
-// Canvas color always updates from RGB, but other conversions will update RGB when changed
-function updateColor()
+//Temp until I think how to clean this all up
+function SetHSL(r,g,b)
 {
+    
+    let tempArr = rgbToHsl(r,g,b);
+
+    hInput.value = tempArr[0];
+    sInput.value = tempArr[1];
+    lInput.value = tempArr[2];
+
+    hSlider.value = tempArr[0];
+    sSlider.value = tempArr[1];
+    lSlider.value = tempArr[2];
+}
+
+// https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+// input: h as an angle in [0,360] and s,l in [0,1] - output: r,g,b in [0,1]
+function hsl2rgb(h,s,l) 
+{
+    // s,l to 0-1
+    s= s/100;
+    l=l/100;
+
+
+   let a=s*Math.min(l,1-l);
+   let f= (n,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
+   return [f(0)*255,f(8)*255,f(4)*255];
+} 
+
+//https://gist.github.com/mjackson/5311256
+function rgbToHsl(r, g, b) {
+    r /= 255, g /= 255, b /= 255;
+  
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+  
+    if (max == min) {
+      h = s = 0; // achromatic
+    } else {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+  
+      h /= 6;
+    }
+  
+    return [ h*360, s*100, l*100 ];
+  }
+
+
+// Canvas color always updates from RGB, but other conversions will update RGB when changed
+function updateColor(style, colorValue)
+{
+    //TODO verify user inputs in here
+    let tempArr;
+    switch(style){
+        case "rgb": 
+            tempArr = colorValue.split(",");
+            color1slider.value = tempArr[0];
+            color2slider.value = tempArr[1];
+            color3slider.value = tempArr[2];
+
+            color1.value = tempArr[0];
+            color2.value = tempArr[1];
+            color3.value = tempArr[2];
+
+            SetHSL(color1.value, color2.value, color3.value);
+            hex.value = GetColorFillStyle("Hex");
+            rgbLabel.value = GetColorFillStyle("RGB");
+            break;
+
+        case "hsl":
+            tempArr = colorValue.split(",");
+            hSlider.value = tempArr[0];
+            sSlider.value = tempArr[1];
+            lSlider.value = tempArr[2];
+
+            hInput.value = tempArr[0];
+            sInput.value = tempArr[1];
+            lInput.value = tempArr[2];
+
+            SetRGB("hsl", hInput.value + "," + sInput.value + "," + lInput.value);
+            hex.value = GetColorFillStyle("Hex");
+            rgbLabel.value = GetColorFillStyle("RGB");
+            break;
+
+        // temp, rethink how set RGB is used
+        case "hex":
+            //temp, sets rgb
+            SetRGB("Hex", colorValue);
+
+            SetHSL(color1.value, color2.value, color3.value);
+            hex.value = GetColorFillStyle("Hex");
+            rgbLabel.value = GetColorFillStyle("RGB");
+            break;
+
+        default:
+            console.error("UpdateColor Color type not recognized: " + colorType);
+
+
+    }
+
     console.log("Updating Color: " +  GetColorFillStyle(""));
     ctx.fillStyle = GetColorFillStyle("");
 
