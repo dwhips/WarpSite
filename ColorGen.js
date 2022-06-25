@@ -13,13 +13,6 @@ var hSlider = document.getElementById("hSlider"), sSlider = document.getElementB
 InitColors();
 
 function InitColors(){
-    // color1.value = 125;
-    // color2.value = 125;
-    // color3.value = 125;
-    // color1slider.value = 125;
-    // color2slider.value = 125;
-    // color3slider.value = 125;
-
     rgbLabel.value = GetColorFillStyle("RGB");
 
     SetRandomRGB()
@@ -29,69 +22,29 @@ function InitColors(){
 
 function SyncFromRGBInput()
 {
-    // Number between 0 - 255
-    // color1slider.value = color1.value;
-    // color2slider.value = color2.value;
-    // color3slider.value = color3.value;
-
-    // SetHSL(color1.value, color2.value, color3.value);
-
-    // hex.value = GetColorFillStyle("Hex");
-
-    // rgbLabel.value = GetColorFillStyle("RGB");
-
-    updateColor("rgb", color1.value + "," + color2.value + "," + color3);
+    updateColor("rgb", color1.value + "," + color2.value + "," + color3.value);
 }
 
 function SyncFromRGBSlider()
 {
-    // color1.value = color1slider.value;
-    // color2.value = color2slider.value;
-    // color3.value = color3slider.value;
-
-    // SetHSL(color1.value, color2.value, color3.value);
-
-    // hex.value = GetColorFillStyle("Hex");
-
-    // rgbLabel.value = GetColorFillStyle("RGB");
 
     updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
 }
 
 function SyncFromHSLInput()
 {
-    // hSlider.value = hInput.value;
-    // sSlider.value = sInput.value;
-    // lSlider.value = lInput.value;
-
-    // SetRGB("hsl", hInput.value + "," + sInput.value + "," + lInput.value);
-
-    // hex.value = GetColorFillStyle("Hex");
-
-    // rgbLabel.value = GetColorFillStyle("RGB");
-
     updateColor("hsl", hInput.value + "," + sInput.value + "," + lSlider.value);
 }
 
 function SyncFromHSLSlider()
 {
-    // hInput.value = hSlider.value;
-    // sInput.value = sSlider.value;
-    // lInput.value = lSlider.value;
-
-    // SetRGB("hsl", hInput.value + "," + sInput.value + "," + lInput.value);
-
-    // hex.value = GetColorFillStyle("Hex");
-
-    // rgbLabel.value = GetColorFillStyle("RGB");
-
     updateColor("hsl", hSlider.value + "," + sSlider.value + "," + lSlider.value);
 }
 
 // TODO update label function
 function SyncFromHex()
 {
-    console.log("Hex from sync: " + hex.value);
+    // console.log("Hex from sync: " + hex.value);
 
     //TODO dont use setrgb
     SetRGB("Hex", hex.value);
@@ -101,7 +54,7 @@ function SyncFromHex()
 function SyncFromLabel(){
 
     //TODO dont use SetRGB to use update color
-    console.log("rgb label from sync: " + rgbLabel.value);
+    // console.log("rgb label from sync: " + rgbLabel.value);
     SetRGB("rgb", rgbLabel.value);
     updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
 }
@@ -154,7 +107,6 @@ function SetRGB(colorType, colorValue)
             colorValue = colorValue.replace("a","");
             colorValue = colorValue.replace("(","");
             colorValue = colorValue.replace(")","");
-            console.log("color val: " + colorValue);
             tempArr = colorValue.split(",");
 
             if (tempArr.length < 3){return "nullss"}
@@ -165,10 +117,8 @@ function SetRGB(colorType, colorValue)
             break;
 
         case "hsl":
-            console.log(colorValue);
             tempArr = colorValue.split(",");
             tempArr = hsl2rgb(tempArr[0],tempArr[1],tempArr[2]);
-            console.log("temp arr: " + tempArr);
             // assuming r g b are provided
             color1.value = Math.floor(tempArr[0]);
             color2.value = Math.floor(tempArr[1]);
@@ -188,6 +138,10 @@ function SetHSL(r,g,b)
 {
     
     let tempArr = rgbToHsl(r,g,b);
+
+    tempArr[0] = Math.floor(tempArr[0]);
+    tempArr[1] = Math.floor(tempArr[1]);
+    tempArr[2] = Math.floor(tempArr[2]);
 
     hInput.value = tempArr[0];
     sInput.value = tempArr[1];
@@ -290,11 +244,9 @@ function updateColor(style, colorValue)
 
     }
 
-    console.log("Updating Color: " +  GetColorFillStyle(""));
     ctx.fillStyle = GetColorFillStyle("");
 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
 
     var canvasTest = document.getElementById("test");
     var ctxTest = canvasTest.getContext("2d");
