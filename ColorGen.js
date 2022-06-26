@@ -16,47 +16,49 @@ function InitColors(){
     rgbLabel.value = GetColorFillStyle("RGB");
 
     SetRandomRGB()
-    // SetHSL(color1.value, color2.value, color3.value);
     SyncFromRGBInput();
 }
 
 function SyncFromRGBInput()
 {
-    updateColor("rgb", color1.value + "," + color2.value + "," + color3.value);
+    updateColor("rgb", color1.value, color2.value, color3.value);
 }
 
 function SyncFromRGBSlider()
 {
-
-    updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
+    updateColor("rgb", color1slider.value, color2slider.value, color3slider.value)
 }
 
 function SyncFromHSLInput()
 {
-    updateColor("hsl", hInput.value + "," + sInput.value + "," + lSlider.value);
+    updateColor("hsl", hInput.value, sInput.value, lInput.value);
 }
 
 function SyncFromHSLSlider()
 {
-    updateColor("hsl", hSlider.value + "," + sSlider.value + "," + lSlider.value);
+    updateColor("hsl", hSlider.value, sSlider.value, lSlider.value);
 }
 
-// TODO update label function
 function SyncFromHex()
 {
-    // console.log("Hex from sync: " + hex.value);
-
-    //TODO dont use setrgb
-    SetRGB("Hex", hex.value);
-    updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
+    let arrTemp = ParseLabel("Hex", hex.value);
+    if (arrTemp.length == 0) {
+        console.error("failed hex parsing from: " + hex.value);
+    }
+    else{
+        updateColor("rgb", arrTemp[0], arrTemp[1], arrTemp[2]);
+    }
 }
 
-function SyncFromLabel(){
+function SyncRGBLabel(){
 
-    //TODO dont use SetRGB to use update color
-    // console.log("rgb label from sync: " + rgbLabel.value);
-    SetRGB("rgb", rgbLabel.value);
-    updateColor("rgb", color1slider.value + "," + color2slider.value + "," + color3slider.value);
+    let arrTemp = ParseLabel("RGB", rgbLabel.value);
+    if (arrTemp.length == 0) {
+        console.error("failed rgb parsing from: " + rgbLabel.value);
+    }
+    else{
+        updateColor("rgb", arrTemp[0], arrTemp[1], arrTemp[2]);
+    }
 }
 
 // Get fill style text of each color type
@@ -71,8 +73,15 @@ function GetColorFillStyle(colorType)
             let r = parseInt(color1.value);
             let g = parseInt(color2.value);
             let b = parseInt(color3.value);
+            r = r.toString(16);
+            g = g.toString(16);
+            b = b.toString(16);
 
-            return "#" + r.toString(16) + g.toString(16) + b.toString(16);
+            if (r.length == 1) r = "0" + r;
+            if (g.length == 1) g = "0" + g;
+            if (b.length == 1) b = "0" + b;
+            
+            return "#" + r + g + b;
 
         case "HSL":
             return "hsl(" + hInput.value + "," + sInput.value + "%," + lInput.value + "%)";  
@@ -80,6 +89,52 @@ function GetColorFillStyle(colorType)
         default:
             console.error("GetColorFillStyle Color type not recognized: " + colorType);
     }
+}
+
+// This unparses a label/fill style with seperated values.
+// If this returns an empty array, the unparse failed and do not try to update the color. The field should be put in error.
+function ParseLabel(colorType, labelValue) 
+{
+    let tempColorArr;
+    switch(colorType){
+        case "RGB":
+            // removing comon prefix and ending
+            //TODO remove all preceeding ( prefix vals
+            labelValue = labelValue.replace("rgb","");
+            labelValue = labelValue.replace("a","");
+            labelValue = labelValue.replace("(","");
+            labelValue = labelValue.replace(")","");
+            //split into rgb values
+            tempColorArr = labelValue.split(",");
+
+            //check for valid outputs
+            if(tempColorArr.length < 3) return [];
+
+            tempColorArr[0] = tempColorArr[0].trim();
+            tempColorArr[1] = tempColorArr[1].trim();
+            tempColorArr[2] = tempColorArr[2].trim();
+
+            if(!isNumeric(tempColorArr[0])) return[];
+            if(!isNumeric(tempColorArr[1])) return []; 
+            if(!isNumeric(tempColorArr[2])) return []; 
+
+            return tempColorArr.slice(0,3);
+
+        case "Hex":
+            //parsing out hex value to RGB
+            labelValue = labelValue.replace("#",""); // remove preffix #
+            if (labelValue.length != 6) return [];
+
+            r = labelValue.substring(0,2);
+            g = labelValue.substring(2,4);
+            b = labelValue.substring(4,6);
+
+            return [parseInt(r, 16), parseInt(g, 16), parseInt(b, 16)];
+
+        default:
+            console.error("ParseLabel Color type not recognized: " + colorType);
+    }
+    return [];
 }
 
 // Converts the provided color type to RGB and sets the color vals.
@@ -134,7 +189,7 @@ function SetRGB(colorType, colorValue)
 }
 
 //Temp until I think how to clean this all up
-function SetHSL(r,g,b)
+function SetHSLFromRGB(r,g,b)
 {
     
     let tempArr = rgbToHsl(r,g,b);
@@ -191,52 +246,53 @@ function rgbToHsl(r, g, b) {
     return [ h*360, s*100, l*100 ];
   }
 
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 // Canvas color always updates from RGB, but other conversions will update RGB when changed
-function updateColor(style, colorValue)
+function updateColor(style, input1, input2, input3)
 {
-    //TODO verify user inputs in here
-    let tempArr;
+    // console.log("updateColor - " + input1 + " " + input2 + " " + input3)
     switch(style){
         case "rgb": 
-            tempArr = colorValue.split(",");
-            color1slider.value = tempArr[0];
-            color2slider.value = tempArr[1];
-            color3slider.value = tempArr[2];
+            color1slider.value = input1;
+            color2slider.value = input2;
+            color3slider.value = input3;
 
-            color1.value = tempArr[0];
-            color2.value = tempArr[1];
-            color3.value = tempArr[2];
+            color1.value = input1;
+            color2.value = input2;
+            color3.value = input3;
 
-            SetHSL(color1.value, color2.value, color3.value);
+            SetHSLFromRGB(input1, input2, input3);
             hex.value = GetColorFillStyle("Hex");
             rgbLabel.value = GetColorFillStyle("RGB");
             break;
 
         case "hsl":
-            tempArr = colorValue.split(",");
-            hSlider.value = tempArr[0];
-            sSlider.value = tempArr[1];
-            lSlider.value = tempArr[2];
+            // tempArr = colorValue.split(",");
+            hSlider.value = input1;
+            sSlider.value = input2;
+            lSlider.value = input3;
 
-            hInput.value = tempArr[0];
-            sInput.value = tempArr[1];
-            lInput.value = tempArr[2];
+            hInput.value = input1;
+            sInput.value = input2;
+            lInput.value = input3;
 
-            SetRGB("hsl", hInput.value + "," + sInput.value + "," + lInput.value);
+            SetRGB("hsl", input1 + "," + input2 + "," + input3);
             hex.value = GetColorFillStyle("Hex");
             rgbLabel.value = GetColorFillStyle("RGB");
             break;
 
-        // temp, rethink how set RGB is used
-        case "hex":
-            //temp, sets rgb
-            SetRGB("Hex", colorValue);
+        // temp, rethink how set RGB is used. Implement another param for string or just unparse?
+        // case "hex":
+        //     //temp, sets rgb
+        //     SetRGB("Hex", colorValue);
 
-            SetHSL(color1.value, color2.value, color3.value);
-            hex.value = GetColorFillStyle("Hex");
-            rgbLabel.value = GetColorFillStyle("RGB");
-            break;
+        //     SetHSLFromRGB(color1.value, color2.value, color3.value);
+        //     hex.value = GetColorFillStyle("Hex");
+        //     rgbLabel.value = GetColorFillStyle("RGB");
+        //     break;
 
         default:
             console.error("UpdateColor Color type not recognized: " + colorType);
