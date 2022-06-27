@@ -6,6 +6,7 @@ var color1 = document.getElementById("color1"), color2 = document.getElementById
 var color1slider = document.getElementById("color1slider"), color2slider = document.getElementById("color2slider"), color3slider = document.getElementById("color3slider");
 var hex = document.getElementById("hex");
 var rgbLabel = document.getElementById("rgbLabel");
+var hslLabel = document.getElementById("hslLabel");
 
 var hInput = document.getElementById("hInput"), sInput = document.getElementById("sInput"), lInput = document.getElementById("lInput");
 var hSlider = document.getElementById("hSlider"), sSlider = document.getElementById("sSlider"), lSlider = document.getElementById("lSlider");
@@ -61,6 +62,17 @@ function SyncRGBLabel(){
     }
 }
 
+function SyncHSLLabel()
+{
+    let arrTemp = ParseLabel("HSL", hslLabel.value);
+    if (arrTemp.length == 0) {
+        console.error("failed hsl parsing from: " + hslLabel.value);
+    }
+    else{
+        updateColor("hsl", arrTemp[0], arrTemp[1], arrTemp[2]);
+    }
+}
+
 // Get fill style text of each color type
 function GetColorFillStyle(colorType)
 {
@@ -95,11 +107,13 @@ function GetColorFillStyle(colorType)
 // If this returns an empty array, the unparse failed and do not try to update the color. The field should be put in error.
 function ParseLabel(colorType, labelValue) 
 {
+    labelValue.toLowerCase();
     let tempColorArr;
     switch(colorType){
         case "RGB":
             // removing comon prefix and ending
-            //TODO remove all preceeding ( prefix vals
+            //TODO remove all preceeding ( prefix vals. See if we know regex lol
+            
             labelValue = labelValue.replace("rgb","");
             labelValue = labelValue.replace("a","");
             labelValue = labelValue.replace("(","");
@@ -130,6 +144,27 @@ function ParseLabel(colorType, labelValue)
             b = labelValue.substring(4,6);
 
             return [parseInt(r, 16), parseInt(g, 16), parseInt(b, 16)];
+
+        case "HSL":
+            //parsing HSL to HSL values
+            labelValue = labelValue.replace("hsl", "");
+            labelValue = labelValue.replace("a","")
+            labelValue = labelValue.replace("(","");
+            labelValue = labelValue.replace(")","");
+            labelValue = labelValue.replaceAll("%","");
+
+            //split into hsl values
+            tempColorArr = labelValue.split(",");
+
+            tempColorArr[0] = tempColorArr[0].trim();
+            tempColorArr[1] = tempColorArr[1].trim();
+            tempColorArr[2] = tempColorArr[2].trim();
+
+            if(!isNumeric(tempColorArr[0])) return[];
+            if(!isNumeric(tempColorArr[1])) return []; 
+            if(!isNumeric(tempColorArr[2])) return [];
+
+            return tempColorArr.slice(0,3);
 
         default:
             console.error("ParseLabel Color type not recognized: " + colorType);
@@ -267,6 +302,7 @@ function updateColor(style, input1, input2, input3)
             SetHSLFromRGB(input1, input2, input3);
             hex.value = GetColorFillStyle("Hex");
             rgbLabel.value = GetColorFillStyle("RGB");
+            hslLabel.value = GetColorFillStyle("HSL");
             break;
 
         case "hsl":
@@ -282,6 +318,7 @@ function updateColor(style, input1, input2, input3)
             SetRGB("hsl", input1 + "," + input2 + "," + input3);
             hex.value = GetColorFillStyle("Hex");
             rgbLabel.value = GetColorFillStyle("RGB");
+            hslLabel.value = GetColorFillStyle("HSL");
             break;
 
         // temp, rethink how set RGB is used. Implement another param for string or just unparse?
