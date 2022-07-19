@@ -4,14 +4,10 @@
 const canvas = document.getElementById('WelcomeCanvas');
 const ctx = canvas.getContext('2d');
 
-// TODO might need this to change when resize browser window
-DrawCanvas();
-// canvas.b
-
 let particleArray = [];
 const def_size = 3; // default circle size
 const grow_size = 5; // size of circle within range
-const sense_dist = 125 * (canvas.width / 1500); // range of mouse
+let sense_dist = 0; // range of mouse
 mag = 5; // magnify condensed font to pixel
 
 const Rgb_goal = 80;
@@ -22,17 +18,18 @@ const Rgb_rate = (255 - Rgb_goal) / 20;
 const rGb_rate = (255 - rGb_goal) / 20;
 const rgB_rate = (255 - rgB_goal) / 20;
 
-txt_coord = DrawText('WELCOME TO', 'WHIPPLE');
-
-var rect
-let reset_bool = false
-
 // handle mouse
 const mouse = {
     x: null,
     y: null,
     radius: sense_dist //particle react area
 }
+
+var rect
+let reset_bool = false
+
+DrawCanvas();
+txt_coord = DrawText('WELCOME TO', 'WHIPPLE');
 
 // Mouse move for mobile
 canvas.ontouchstart = function (event) {
@@ -71,6 +68,10 @@ function DrawCanvas() {
     const bound_rect = canvas.getBoundingClientRect();
     canvas.width = window.innerWidth - bound_rect.x;
     canvas.height = (window.innerHeight - bound_rect.y) *.8;
+
+    // Slope of sense dist by canvas width. Linear relationship based on the points of (canvas, radius), (482, 60), (1286, 110)
+    sense_dist = 30.02487562 + canvas.width * 0.062189;
+    mouse.radius = sense_dist;
 }
 
 /* Draws text based on screen size. I fiddled with values to work for two strings, top string being a little longer than bottom string. (Only if you care about them being close to same length)
