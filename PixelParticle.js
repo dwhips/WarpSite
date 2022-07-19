@@ -70,7 +70,7 @@ function SetMousePosition(clientX, clientY)
 function DrawCanvas() {
     const bound_rect = canvas.getBoundingClientRect();
     canvas.width = window.innerWidth - bound_rect.x;
-    canvas.height = window.innerHeight - bound_rect.y;   // TODO might want size to be a little less then flush to bottom
+    canvas.height = (window.innerHeight - bound_rect.y) *.8;
 }
 
 /* Draws text based on screen size. I fiddled with values to work for two strings, top string being a little longer than bottom string. (Only if you care about them being close to same length)
