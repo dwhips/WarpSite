@@ -5,16 +5,13 @@ const canvas = document.getElementById('WelcomeCanvas');
 const ctx = canvas.getContext('2d');
 
 // TODO might need this to change when resize browser window
-const bound_rect = canvas.getBoundingClientRect();
-canvas.width = window.innerWidth - bound_rect.x;
-canvas.height = window.innerHeight - bound_rect.y;   // TODO might want size to be a little less then flush to bottom
+DrawCanvas();
 // canvas.b
 
 let particleArray = [];
 const def_size = 3; // default circle size
 const grow_size = 5; // size of circle within range
 const sense_dist = 125 * (canvas.width / 1500); // range of mouse
-console.log("sense dist: " + sense_dist);
 mag = 5; // magnify condensed font to pixel
 
 const Rgb_goal = 80;
@@ -41,67 +38,85 @@ const mouse = {
 canvas.ontouchstart = function (event) {
     event.preventDefault();
     rect = canvas.getBoundingClientRect();
-    mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
-    mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+    SetMousePosition(event.touches[0].clientX, event.touches[0].clientY);
 }
 
 // TODO speed improvement, have isMobile to prevent on move
 canvas.ontouchmove = function (event) {
     event.preventDefault();
     rect = canvas.getBoundingClientRect();
-    mouse.x = (event.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
-    mouse.y = (event.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+    SetMousePosition(event.touches[0].clientX, event.touches[0].clientY);
 }
 
 // Mouse move for desktop
 addEventListener('mousemove', (event) => {
     rect = canvas.getBoundingClientRect();
-
-    mouse.x = (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
-    mouse.y = (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
-
-    // mouse.x = event.clientX
-    // mouse.y = event.clientY
+    SetMousePosition(event.clientX, event.clientY);
 })
 
 addEventListener('resize', () => {
     //reset_bool = true
+    DrawCanvas();
+    txt_coord = DrawText('WELCOME TO', 'WHIPPLE');
+    initParticles(true);
 })
 
+function SetMousePosition(clientX, clientY)
+{
+    mouse.x = (clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    mouse.y = (clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+}
 
+function DrawCanvas() {
+    const bound_rect = canvas.getBoundingClientRect();
+    canvas.width = window.innerWidth - bound_rect.x;
+    canvas.height = window.innerHeight - bound_rect.y;   // TODO might want size to be a little less then flush to bottom
+}
 
 /* Draws text based on screen size. I fiddled with values to work for two strings, top string being a little longer than bottom string. (Only if you care about them being close to same length)
 rate of change for font size is based off screen width. width of ~1500 uses font of 30px and 39px. min screen starting at 150 width is 10px and 13px. so every 150 width is 2px to 2.6px increase
 */
 function DrawText(text_top, text_bottom) {
-    console.log(window.innerHeight + ": inner hight");
-    console.log(window.innerWidth + ": inner width");
+    // console.log(window.innerHeight + ": inner hight");
+    // console.log(window.innerWidth + ": inner width");
 
     // 10*13 is minimum font size i want
     let top_font = 10;
     let bot_font = 13;
-    let min_width = 400;
+    let min_width = 600;
+    let fontString = "px Tahoma";
 
-    if (canvas.width > min_width) {
-        let width_ratio = canvas.width / min_width;
-        // let top_ratio = (30 - top_font) / (1500 / min_width);
-        // let bot_ratio = (39 - bot_font) / (1500 / min_width);
-        top_font = width_ratio * top_font; // see function header for these rates
-        bot_font = width_ratio * bot_font;
-    }
+    let width_ratio = canvas.width / min_width;
+    // let top_ratio = (30 - top_font) / (1500 / min_width);
+    // let bot_ratio = (39 - bot_font) / (1500 / min_width);
+    top_font = width_ratio * top_font; // see function header for these rates
+    bot_font = width_ratio * bot_font;
+
+
 
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = 'white';
     // ctx.textBaseline = 'middle';
     ctx.textAlign = "center";
 
-    // TODO have shift if window width < height. make mobile size thicker
-    // get var for px sizing   30>
-    ctx.font = top_font + 'px Tahoma';
-    ctx.fillText(text_top, canvas.width / 2, canvas.height / 2 - top_font / 2 - 5); // message, x coord to start painting, y 
-    // get var for px sizing    39>
-    ctx.font = 'bold ' + bot_font + 'px Tahoma';
-    ctx.fillText(text_bottom, canvas.width / 2, canvas.height / 2 + bot_font / 2 + 5);
+    if (canvas.width > min_width) {
+        // get var for px sizing   30>
+        ctx.font = top_font + fontString;
+        ctx.fillText(text_top, canvas.width / 2, canvas.height / 2 - top_font / 2 - 5); // message, x coord to start painting, y 
+        // get var for px sizing    39>
+        ctx.font = 'bold ' + bot_font + fontString;
+        ctx.fillText(text_bottom, canvas.width / 2, canvas.height / 2 + bot_font / 2 + 5);
+    }
+    else
+    {
+        // I hate this but so much is already hard coded. Will want to make text sizing entirely responsive.
+        // This would be a good project to break out, make as an individual page with a lot more flexibility and then use updates in here.
+        // Like drawing new particles on the screen. 
+        let textSize = 30 + Math.ceil(canvas.width/50);
+
+        ctx.font = 'bold ' + textSize + fontString;
+        ctx.fillText("W", canvas.width / 2, canvas.height / 2);
+    }
 
     return ctx.getImageData(0, 0, canvas.width, canvas.height);
 }
@@ -270,9 +285,9 @@ function animate() {
 
     requestAnimationFrame(animate);
 
-    //comment me
-    //ctx.strokeStyle = 'red';
-    //ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    ////debug canvas
+    // ctx.strokeStyle = 'red';
+    // ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
 initParticles(true);
