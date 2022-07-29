@@ -1,25 +1,33 @@
 @media (max-width: 450px) {
     .default_txt {
         width: 90%;
+        font-size: 16px;
     }
 }
 
 @media (min-width: 450px) {
     .default_txt {
         width: 66%;
+        font-size: 18px;
     }
 }
 
 .default_txt {
     margin: auto;
-    padding: 10px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 10px;
+    padding-left: 10px;
     color: whitesmoke;
     font-family: 'Montserrat';
-    font-size: 16px;
-    /* background-color: black; */
-    background: rgb(80, 162, 167);
-    /* Fallback for older browsers without RGBA-support */
+    /* font-size: 16px; */
+   
     background: rgba(80, 162, 167, 0.5);
+    /* background-color: rgb(47, 146, 151); */
+}
+
+.default_txt:last-child {
+    margin-bottom: 50px;
 }
 
 .select_box ul li {
@@ -30,16 +38,37 @@
     font-family: 'Montserrat';
     font-size: 30px;
     /* background-color: black; */
-    background: rgb(80, 162, 167);
+    /* background: rgb(80, 162, 167); */
     /* Fallback for older browsers without RGBA-support */
-    background: rgba(80, 162, 167, 0.5);
+    /* background: rgba(80, 162, 167, 0.5); */
 }
 
 .select_box ul li a, .select_box ul li a:visited, .select_box ul li a:hover, .select_box ul li a:active {
     color: white;
 }
-/* 
+
 .GrowHeader{
-    max-width: 75%;
-    height: ;
-} */
+    /* max-width: 75%; */
+    display: flex;
+    align-items: center;
+    height: 10%;
+    min-width: 200px;
+    width: 40%;
+    margin-left: 5%;
+    
+    /* background: rgb(144, 80, 165); */
+    background: rgb(124, 80, 146);
+    color: whitesmoke;
+    /* color: black; */
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Trebuchet;
+    padding-left: 20px;
+
+    transition: width 1s;
+}
+
+.GrowHeader:hover{
+    /* Keep same width for mobile text */
+    width: 85%;
+}
