@@ -1,5 +1,16 @@
+@media (max-width: 450px) {
+    .default_txt {
+        width: 90%;
+    }
+}
+
+@media (min-width: 450px) {
+    .default_txt {
+        width: 66%;
+    }
+}
+
 .default_txt {
-    width: 75%;
     margin: auto;
     padding: 10px;
     color: whitesmoke;
@@ -12,7 +23,6 @@
 }
 
 .select_box ul li {
-    width: 75%;
     margin: 12px auto;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -28,3 +38,8 @@
 .select_box ul li a, .select_box ul li a:visited, .select_box ul li a:hover, .select_box ul li a:active {
     color: white;
 }
+/* 
+.GrowHeader{
+    max-width: 75%;
+    height: ;
+} */
