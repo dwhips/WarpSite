@@ -3,16 +3,16 @@ var ctx = canvas.getContext('2d')
 // var offset_height = document.getElementById("header").offsetHeight;
 
 var bound_rect = canvas.getBoundingClientRect();
-canvas.width = window.innerWidth - bound_rect.x;
-canvas.height = window.innerHeight - bound_rect.y;
+canvas.width = window.innerWidth;// - bound_rect.x;
+canvas.height = window.innerHeight - bound_rect.y - 10;
 
 ctx.fillStyle = 'black'
 ctx.fillRect(0, 0, canvas.width, canvas.height)
 
 
 addEventListener('resize', () => {
-    canvas.width = window.innerWidth - bound_rect.x;
-    canvas.height = window.innerHeight - bound_rect.y;
+    canvas.width = window.innerWidth// - bound_rect.x;
+    canvas.height = window.innerHeight - bound_rect.y- 10;
     general_wave = InitWaves(ctx, canvas);
 })
 

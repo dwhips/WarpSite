@@ -1,0 +1,5 @@
+/* Code for drawing canvas can make scrollbar show for PC.
+Fills in the margin of error from shortened canvas. */
+body{
+    background: black;
+}
