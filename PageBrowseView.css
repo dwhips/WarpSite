@@ -1,3 +1,5 @@
+/* @import './format.css'; */
+
 .list-element{
     background: rgb(80, 162, 167);
     /* Fallback for older browsers without RGBA-support */
@@ -17,11 +19,12 @@
 
 .list-element:hover {
     opacity: .8;
-    border: 2px white solid;
+    border-width: 2px;
+    border-color: var(--colorLight);
 }
 
 .list-element h3{
-    color: whitesmoke;
+    color: var(--textColor);
     font-family: 'Montserrat';
     font-size: 30px;
     font-weight: bold;
@@ -30,7 +33,7 @@
 
 .list-element p{
     /* color: whitesmoke; */
-    color:whitesmoke;
+    color:var(--textColor);
     font-family: 'Montserrat';
     font-size: 20px;
 

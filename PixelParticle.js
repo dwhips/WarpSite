@@ -258,32 +258,7 @@ function animate() {
         particleArray[i].draw();
         particleArray[i].update();            
     }
-    // if(!reset_bool){
-    //     for (let i = 0; i < particleArray.length; i++) {
-    //         particleArray[i].draw();
-    //         particleArray[i].update();
-            
-    //     }
-    // }else{
-    //     for (let i = 0; i < particleArray.length; i++) {
-    //         canvas.width = window.innerWidth - bound_rect.x;
-    //         canvas.height = window.innerHeight - bound_rect.y;
-
-    //         console.log("Resize" + canvas.height + canvas.width)
-
-    //         particleArray[i].reset();
-    //         particleArray[i].draw();
-    //         particleArray[i].update();
-            
-    //         txt_coord = DrawText('WELCOME TO', 'WHIPPLE')
-    //         initParticles(false); //TODO new delete
-
-    //         reset_bool = false
-    //     }
-    // }
     
-    
-
     requestAnimationFrame(animate);
 
     ////debug canvas

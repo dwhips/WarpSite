@@ -1,28 +1,46 @@
+:root{
+    --colorBackground: #1a2c2f;
+    --color2: #2b454a;
+    --color3: #436a6d;
+    --color4: #63979c;
+    --colorLight: #93d4d0;
+    --textColor: whitesmoke;
+}
+
+img{
+    /* stop images from being dragged */
+     pointer-events: none;
+}
+
 @media (max-width: 450px) {
-    .default_txt {
-        width: 90%;
-        font-size: 16px;
-    }
+    .txtBlock{width: 90%;}
+    .default_txt {font-size: 16px;}
+    .GrowHeader{font-size: 25px;}
 }
 
 @media (min-width: 450px) {
-    .default_txt {
-        width: 66%;
-        font-size: 18px;
-    }
+    .txtBlock{width: 66%;}
+    .default_txt {font-size: 18px;}
+    .GrowHeader{font-size: 30px;}
+}
+
+.txtBlock{
+    margin: auto;
 }
 
 .default_txt {
+    width: 100%;
     margin: auto;
+    box-sizing: border-box;
     padding-top: 30px;
     padding-bottom: 30px;
     padding-right: 10px;
     padding-left: 10px;
-    color: whitesmoke;
+    color: var(--textColor);
     font-family: 'Montserrat';
     /* font-size: 16px; */
-   
-    background: rgba(80, 162, 167, 0.5);
+   background-color: var(--colorBackground);
+    /* background: rgba(80, 162, 167, 0.5); */
     /* background-color: rgb(47, 146, 151); */
 }
 
@@ -30,45 +48,25 @@
     margin-bottom: 50px;
 }
 
-.select_box ul li {
-    margin: 12px auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: whitesmoke;
-    font-family: 'Montserrat';
-    font-size: 30px;
-    /* background-color: black; */
-    /* background: rgb(80, 162, 167); */
-    /* Fallback for older browsers without RGBA-support */
-    /* background: rgba(80, 162, 167, 0.5); */
-}
-
-.select_box ul li a, .select_box ul li a:visited, .select_box ul li a:hover, .select_box ul li a:active {
-    color: white;
-}
 
 .GrowHeader{
     /* max-width: 75%; */
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 10%;
     min-width: 200px;
-    width: 40%;
-    margin-left: 5%;
+    margin: auto;
     
     /* background: rgb(144, 80, 165); */
-    background: rgb(124, 80, 146);
-    color: whitesmoke;
-    /* color: black; */
-    font-size: 30px;
+    /* background: rgb(124, 80, 146); */
+    background-color: var(--color4);
+    border-bottom-style: solid;
+    border-bottom-color: var(--color3);
+    /* color: var(--colorLight); */
+    color:white;
     font-weight: bold;
     font-family: Trebuchet;
-    padding-left: 20px;
 
     transition: width 1s;
-}
-
-.GrowHeader:hover{
-    /* Keep same width for mobile text */
-    width: 85%;
 }
