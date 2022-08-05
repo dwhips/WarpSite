@@ -18,11 +18,10 @@ function GrowTitleIfVisible(collGrowTitles)
 
     for (let i = 0; i < collGrowTitles.length; i++)
     {
-        console.log("in loop: " + collGrowTitles[i]);
-        if (collGrowTitles[i].className != 'GrowHeader') {
-            console.log("invalid class name: " + collGrowTitles[i].className);
-            return;
-        }
+        // if (collGrowTitles[i].className != 'GrowHeader') {
+        //     console.log("invalid class name: " + collGrowTitles[i].className);
+        //     return;
+        // }
 
         if(isInViewport(collGrowTitles[i])){
             collGrowTitles[i].style.width = maxGrowTitleWidth;

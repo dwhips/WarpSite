@@ -67,9 +67,18 @@ function SetMousePosition(clientX, clientY)
 function DrawCanvas() {
     const bound_rect = canvas.getBoundingClientRect();
     canvas.width = window.innerWidth - bound_rect.x;
+    
     canvas.height = (window.innerHeight - bound_rect.y) *.8;
+    // Handles if scrolling expands canvas area.
+    // On mobile, screen will resize and canvas will redraw with excessive height.
+    if (canvas.height > window.innerHeight * 0.7)
+    {
+        canvas.height = window.innerHeight * 0.7;
+    }
 
-    // Slope of sense dist by canvas width. Linear relationship based on the points of (canvas, radius), (482, 60), (1286, 110)
+    // Slope of sense dist by canvas width. 
+    // Linear relationship based on two points of senses that I determined for two different screen sizes
+    // (canvas, radius), (482, 60), (1286, 110)
     sense_dist = 30.02487562 + canvas.width * 0.062189;
     mouse.radius = sense_dist;
 }
@@ -78,9 +87,6 @@ function DrawCanvas() {
 rate of change for font size is based off screen width. width of ~1500 uses font of 30px and 39px. min screen starting at 150 width is 10px and 13px. so every 150 width is 2px to 2.6px increase
 */
 function DrawText(text_top, text_bottom) {
-    // console.log(window.innerHeight + ": inner hight");
-    // console.log(window.innerWidth + ": inner width");
-
     // 10*13 is minimum font size i want
     let top_font = 10;
     let bot_font = 13;
@@ -110,7 +116,7 @@ function DrawText(text_top, text_bottom) {
     }
     else
     {
-        // I hate this but so much is already hard coded. Will want to make text sizing entirely responsive.
+        // TODO I hate this but so much is already hard coded. Will want to make text sizing entirely responsive.
         // This would be a good project to break out, make as an individual page with a lot more flexibility and then use updates in here.
         // Like drawing new particles on the screen. 
         let textSize = 30 + Math.ceil(canvas.width/50);
