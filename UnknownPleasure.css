@@ -1,5 +1,24 @@
+@import './format.css';
+
 /* Code for drawing canvas can make scrollbar show for PC.
 Fills in the margin of error from shortened canvas. */
 body{
     background: black;
+}
+
+.ButtonContainer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#changeDoodleButton{
+    background-color: black;
+    font-size: large;
+    color: var(--colorLight);
+    text-align: center;
+
+    padding: 10px;
+
+    border: 2px solid var(--color3);
 }

@@ -1,42 +1,53 @@
-var canvas = document.getElementById('doodle')
-var ctx = canvas.getContext('2d')
+var canvas = document.getElementById('doodle');
+var ctx = canvas.getContext('2d');
 // var offset_height = document.getElementById("header").offsetHeight;
 
 var bound_rect = canvas.getBoundingClientRect();
 canvas.width = window.innerWidth;// - bound_rect.x;
-canvas.height = window.innerHeight - bound_rect.y - 10;
+canvas.height = getCanvasHeight();
 
-ctx.fillStyle = 'black'
-ctx.fillRect(0, 0, canvas.width, canvas.height)
+ctx.fillStyle = 'black';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+var xMinWaves;
+var xMaxWaves;
 
 addEventListener('resize', () => {
-    canvas.width = window.innerWidth// - bound_rect.x;
-    canvas.height = window.innerHeight - bound_rect.y- 10;
-    general_wave = InitWaves(ctx, canvas);
+    drawWaves();
 })
 
+function drawWaves()
+{
+    canvas.width = window.innerWidth;// - bound_rect.x;
+    canvas.height = getCanvasHeight();
+    general_wave = InitWaves(ctx, canvas);
+}
+
+function getCanvasHeight(){
+    return (window.innerHeight - bound_rect.y) * 0.9;
+}
+
 function rand(min, max) {
-    return Math.random() * (max - min) + min
+    return Math.random() * (max - min) + min;
 }
 
 function randInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function randNormal(mu, sigma) {
     var sum = 0
     for (var i = 0; i < 6; i += 1) {
-        sum += rand(-1, 1)
+        sum += rand(-1, 1);
     }
-    return mu + sigma * sum / 6
+    return mu + sigma * sum / 6;
 }
 
 function normalPDF(x, mu, sigma) {
-    var sigma2 = Math.pow(sigma, 2)
-    var numerator = Math.exp(-Math.pow((x - mu), 2) / (2 * sigma2))
-    var denominator = Math.sqrt(2 * Math.PI * sigma2)
-    return numerator / denominator
+    var sigma2 = Math.pow(sigma, 2);
+    var numerator = Math.exp(-Math.pow((x - mu), 2) / (2 * sigma2));
+    var denominator = Math.sqrt(2 * Math.PI * sigma2);
+    return numerator / denominator;
 }
 
 function InitWaves(ctx, canvas) {
@@ -99,23 +110,23 @@ function InitWaves(ctx, canvas) {
 function DrawAllWaves(ctx, canvas, general_wave_data) {
     // Determine x and y range
 
-    var xMin = canvas.width / 10;
-
-    var xMax = canvas.width - xMin;
+    xMinWaves = canvas.width / 10;
+    xMaxWaves = canvas.width - xMinWaves;
+    
     var yMin = 100;
     var yMax = canvas.height - yMin;
 
     var nLines = 80;
     var nPoints = 80;
 
-    var mx = (xMin + xMax) / 2;
-    var dx = (xMax - xMin) / nPoints;
+    var mx = (xMinWaves + xMaxWaves) / 2;
+    var dx = (xMaxWaves - xMinWaves) / nPoints;
     var dy = (yMax - yMin) / nLines;
 
-    var x = xMin;
+    var x = xMinWaves;
     var y = yMin;
 
-    ctx.moveTo(xMin, yMin);
+    ctx.moveTo(xMinWaves, yMin);
 
     ctx.fillStyle = 'black'
     ctx.strokeStyle = 'white'
@@ -141,7 +152,7 @@ function DrawAllWaves(ctx, canvas, general_wave_data) {
         // Draw the current line
         ctx.stroke()
         // Go to the next line
-        x = xMin
+        x = xMinWaves
         y = y + dy
         ctx.moveTo(x, y)
     }
@@ -170,5 +181,31 @@ function animate() {
     setTimeout(() => { }, 1000);
 }
 
-const general_wave = InitWaves(ctx, canvas);
+let general_wave = InitWaves(ctx, canvas);
 animate();
+
+
+var id = null;
+let tempButtonOpacity;
+
+function ButtonClick(elem)
+{
+    drawWaves();
+    
+    document.getElementById(elem.id).style.opacity = "0.5";
+    id = setInterval(ButtonAnimation, 10, elem);
+}
+
+// Increases opacity until it is back to 100 (within interval)
+function ButtonAnimation(elem)
+{
+    if (elem.style.opacity == "1")
+    {
+        clearInterval(id);
+    }
+    else{
+        tempButtonOpacity = parseFloat(elem.style.opacity);
+        tempButtonOpacity += .025;
+        elem.style.opacity = tempButtonOpacity.toString(); 
+    }
+}
