@@ -1,8 +1,8 @@
 function ExtendLadder(n) {
     for (var i = 0; i < n; ++i) {
-        document.getElementById('monkey').innerHTML += " ||======|| " + PopulateStar() + "\n";
-        document.getElementById('monkey').innerHTML += " ||      || " + PopulateStar() + "\n";
-        document.getElementById('monkey').innerHTML += " ||      || " + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += "   ||======|| " + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += "   ||      || " + PopulateStar() + "\n";
+        document.getElementById('monkey').innerHTML += "   ||      || " + PopulateStar() + "\n";
     }
 }
 
