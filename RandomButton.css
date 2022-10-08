@@ -1,0 +1,12 @@
+#RandomContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#RandomButton{
+    margin: 10;
+    width: 500px;
+    height: 200px;
+}
