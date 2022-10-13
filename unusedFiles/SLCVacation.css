@@ -16,10 +16,10 @@
     grid-template-rows: 150px 150px  
     /* Dining */
     150px repeat(4, 300px) 
-    /* Hiking */
-    150px 300px 
     /* Church */
     150px 300px 
+    /* Hiking */
+    150px repeat(2, 300px) 
     /* Activities */
     150px repeat(4, 300px)
     150px;
